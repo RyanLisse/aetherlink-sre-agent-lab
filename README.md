@@ -77,7 +77,9 @@ Bekijken zonder je eigen werk kwijt te raken: `git diff main step-4`, of in een 
 | Goedkeuren (**alleen een mens**, in een eigen terminal) | `npm run approve -- <jouw-naam> fix/<branch> "<reden>"` |
 | Gate-check zoals in CI | `npm run check:approval` |
 | Een skill van buiten scannen | `npm run skill:scan -- <map>` |
-| progress.md handmatig bijwerken | `npm run progress` |
+| Current workshop checks in `progress.md` vernieuwen | `npm run progress` |
+
+`npm run progress` vernieuwt alleen het AUTO-blok met de huidige stand. Voeg een geverifieerde historische entry handmatig onderaan het Build log toe.
 
 ## Incidenten
 
