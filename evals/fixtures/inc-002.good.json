@@ -1,0 +1,39 @@
+{
+ "incident": "inc-002-bad-deploy",
+ "service": "checkout-api",
+ "root_cause": {
+  "category": "bad-deploy",
+  "summary": "Deploy d-0151 (1.15.0) switched FEATURE_FAST_CHECKOUT on; the new fast-checkout totals path throws a TypeError for EUR carts only, so EUR checkouts fail with 500 while USD/GBP succeed.",
+  "trigger_deploy": "d-0151"
+ },
+ "evidence": [
+  {
+   "log_id": "L0065",
+   "quote": "\"FEATURE_FAST_CHECKOUT\":true"
+  },
+  {
+   "log_id": "L0068",
+   "quote": "TypeError: Cannot read properties of undefined (reading 'currency')"
+  }
+ ],
+ "ruled_out": [
+  {
+   "hypothesis": "nightly report cron overloading checkout",
+   "why": "cron overran already at 09:15 before the deploy; rps and db_pool_in_use are flat; only EUR fails"
+  },
+  {
+   "hypothesis": "DB pool exhaustion (as in inc-001)",
+   "why": "db pool ok active=8 of max=20; DB_POOL_MAX is 20 in config loaded"
+  }
+ ],
+ "proposed_action": {
+  "runbook": "bad-deploy",
+  "step": "A. PR setting FEATURE_FAST_CHECKOUT=false in config/prod.env (or roll back d-0151 by on-call)",
+  "executes": false,
+  "needs_approval_from": "on-call (named)"
+ },
+ "confidence": "high",
+ "open": [
+  "Why does fastCheckout.totals lose the currency for EUR? Needs a code fix + test before re-enabling the flag."
+ ]
+}

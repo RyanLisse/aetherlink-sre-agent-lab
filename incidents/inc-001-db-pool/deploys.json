@@ -1,0 +1,23 @@
+[
+ {
+  "deploy_id": "d-0141",
+  "service": "checkout-api",
+  "version": "1.13.2",
+  "at": "2026-10-09T09:12:00Z",
+  "by": "ci",
+  "changes": [
+   "fix: rounding in tax line"
+  ]
+ },
+ {
+  "deploy_id": "d-0142",
+  "service": "checkout-api",
+  "version": "1.14.0",
+  "at": "2026-10-11T13:40:02Z",
+  "by": "ci",
+  "changes": [
+   "feat: FEATURE_FAST_CHECKOUT flag",
+   "chore: config/prod.env DB_POOL_MAX 20 -> 5 (cost tuning)"
+  ]
+ }
+]

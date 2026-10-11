@@ -1,0 +1,33 @@
+{
+ "incident": "inc-004-upstream-timeout",
+ "service": "checkout-api",
+ "root_cause": {
+  "category": "bad-deploy",
+  "summary": "Deploy d-0160 (1.15.2) at 10:58 introduced psp-sandbox timeout errors seven minutes later.",
+  "trigger_deploy": "d-0160"
+ },
+ "evidence": [
+  {
+   "log_id": "L0037",
+   "quote": "deploy started"
+  },
+  {
+   "log_id": "L0055",
+   "quote": "upstream timeout"
+  }
+ ],
+ "ruled_out": [
+  {
+   "hypothesis": "DB pool exhaustion",
+   "why": "db pool ok"
+  }
+ ],
+ "proposed_action": {
+  "runbook": "bad-deploy",
+  "step": "Roll back d-0160 to 1.15.1",
+  "executes": false,
+  "needs_approval_from": "on-call"
+ },
+ "confidence": "high",
+ "open": []
+}

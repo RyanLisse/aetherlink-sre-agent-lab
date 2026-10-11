@@ -1,0 +1,11 @@
+node_modules
+.git
+.lab
+approvals/*.jsonl
+.env
+.env.*
+**/*.pem
+**/*.key
+**/application_default_credentials.json
+docs/diagnoses
+docs/verify

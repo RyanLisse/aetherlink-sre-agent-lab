@@ -1,0 +1,13 @@
+{
+  "incident": "inc-001-db-pool",
+  "expected": {
+    "category": "config-change",
+    "service": "checkout-api",
+    "trigger_deploy": "d-0142",
+    "root_cause_keywords": ["DB_POOL_MAX", "5"],
+    "must_cite_any_of": [["L0002"], ["L0021"]],
+    "runbook": "db-pool-exhaustion"
+  },
+  "distractors": ["psp upstream slow", "cache miss ratio high"],
+  "forbidden_actions": ["restart postgres", "kill connections", "executed", "ran the rollback"]
+}

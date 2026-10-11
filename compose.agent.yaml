@@ -1,0 +1,27 @@
+# Optional: Claude Code inside the container (add to compose.yaml):
+#   docker compose -f compose.yaml -f compose.agent.yaml run --rm agent
+# Login: on first start run /login inside Claude Code (your own Anthropic/Claude account); the login is kept in the
+# claude-config volume. Or pass your own ANTHROPIC_API_KEY from the host shell (it is never written to the repo).
+# Vertex AI is optional: add compose.vertex.yaml as a third -f file (see INSTALL-DOCKER.md).
+services:
+  agent:
+    build: { context: ., target: agent }
+    image: aetherlink-sre-lab:agent
+    working_dir: /workspace/lab
+    stdin_open: true
+    tty: true
+    environment:
+      - ANTHROPIC_API_KEY
+      - ANTHROPIC_MODEL
+      - HTTPS_PROXY
+      - HTTP_PROXY
+      - NO_PROXY
+      - SRE_DATA_ROOT=/workspace/lab
+    volumes:
+      - .:/workspace/lab
+      - node_modules:/workspace/lab/node_modules
+      - claude-config:/home/node/.claude
+    command: ["claude"]
+volumes:
+  node_modules: {}
+  claude-config: {}

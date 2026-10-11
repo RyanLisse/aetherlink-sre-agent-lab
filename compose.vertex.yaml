@@ -1,0 +1,19 @@
+# Optional, only for organisations that run Claude via Google Vertex AI (values come from your own IT).
+#   docker compose -f compose.yaml -f compose.agent.yaml -f compose.vertex.yaml run --rm agent
+# Needs on the host: ANTHROPIC_VERTEX_PROJECT_ID, CLOUD_ML_REGION and GCLOUD_ADC_FILE
+# (path to application_default_credentials.json after `gcloud auth application-default login`).
+# The credentials file is mounted read-only; nothing else from your gcloud config enters the container.
+services:
+  agent:
+    environment:
+      - CLAUDE_CODE_USE_VERTEX=1
+      - CLOUD_ML_REGION=${CLOUD_ML_REGION:-global}
+      - ANTHROPIC_VERTEX_PROJECT_ID=${ANTHROPIC_VERTEX_PROJECT_ID:?compose.vertex.yaml needs ANTHROPIC_VERTEX_PROJECT_ID (see INSTALL-DOCKER.md)}
+      - GOOGLE_APPLICATION_CREDENTIALS=/home/node/.config/gcloud/application_default_credentials.json
+    volumes:
+      - type: bind
+        source: ${GCLOUD_ADC_FILE:?compose.vertex.yaml needs GCLOUD_ADC_FILE (see INSTALL-DOCKER.md)}
+        target: /home/node/.config/gcloud/application_default_credentials.json
+        read_only: true
+        bind:
+          create_host_path: false

@@ -1,0 +1,21 @@
+# Runs fully offline: no model, no API key, no external MCP. Twin of .github/workflows/ci.yml.
+# Behind a registry mirror? Override NODE_IMAGE as a CI/CD variable.
+variables:
+  NODE_IMAGE: "node:24-bookworm"
+stages: [check]
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+check:
+  stage: check
+  image: $NODE_IMAGE
+  cache:
+    key: { files: [package-lock.json] }
+    paths: [.npm/]
+  script:
+    - npm ci --cache .npm --prefer-offline
+    - npm test
+    - npm run test:hooks
+    - npm run eval
+    - npm run check:approval   # fix/* MRs need a named human approval (approvals/approvals.jsonl)

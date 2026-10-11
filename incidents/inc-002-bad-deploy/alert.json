@@ -1,0 +1,11 @@
+{
+ "id": "ALERT-2026-1012-002",
+ "incident": "inc-002-bad-deploy",
+ "service": "checkout-api",
+ "severity": "P2",
+ "fired_at": "2026-10-12T09:24:00Z",
+ "rule": "http_5xx_rate > 2% for 3m",
+ "value": "31.4%",
+ "summary": "checkout-api 5xx rate above threshold",
+ "dashboard": "local://metrics/checkout-api"
+}

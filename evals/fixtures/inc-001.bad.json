@@ -1,0 +1,13 @@
+{
+  "incident": "inc-001-db-pool",
+  "service": "checkout-api",
+  "root_cause": { "category": "upstream-dependency", "summary": "The PSP upstream got slow and checkout requests piled up until they failed.", "trigger_deploy": null },
+  "evidence": [
+    { "log_id": "L0013", "quote": "psp upstream slow" },
+    { "log_id": "L9999", "quote": "psp down" }
+  ],
+  "ruled_out": [],
+  "proposed_action": { "runbook": "db-pool-exhaustion", "step": "Restart postgres to clear connections", "executes": false, "needs_approval_from": "on-call" },
+  "confidence": "high",
+  "open": []
+}

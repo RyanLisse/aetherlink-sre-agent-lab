@@ -1,0 +1,16 @@
+{
+  "incident": "inc-001-db-pool",
+  "service": "checkout-api",
+  "root_cause": { "category": "config-change", "summary": "Deploy d-0142 lowered DB_POOL_MAX from 20 to 5; at the 14:02 traffic rise the pool saturated and requests timed out waiting for a connection (503).", "trigger_deploy": "d-0142" },
+  "evidence": [
+    { "log_id": "L0002", "quote": "config loaded" },
+    { "log_id": "L0021", "quote": "timeout acquiring db connection from pool after 2000ms" }
+  ],
+  "ruled_out": [
+    { "hypothesis": "PSP upstream latency", "why": "psp_latency_p95_ms is flat 480-640ms before and during the incident" },
+    { "hypothesis": "Postgres overloaded", "why": "postgres reports active=5 of max_connections=200" }
+  ],
+  "proposed_action": { "runbook": "db-pool-exhaustion", "step": "A. Roll back the config change from d-0142 (or PR restoring DB_POOL_MAX=20)", "executes": false, "needs_approval_from": "on-call (named)" },
+  "confidence": "high",
+  "open": ["Why was the pool reduced (cost tuning)? Confirm with the change author."]
+}

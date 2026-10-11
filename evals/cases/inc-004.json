@@ -1,0 +1,45 @@
+{
+ "incident": "inc-004-upstream-timeout",
+ "expected": {
+  "category": "upstream-dependency",
+  "service": "checkout-api",
+  "trigger_deploy": null,
+  "root_cause_keywords": [
+   "psp-sandbox",
+   "timeout"
+  ],
+  "must_cite_any_of": [
+   [
+    "L0055",
+    "L0059",
+    "L0063",
+    "L0067",
+    "L0071"
+   ],
+   [
+    "L0056",
+    "L0057",
+    "L0060",
+    "L0061",
+    "L0064"
+   ]
+  ],
+  "must_rule_out_any_of": [
+   [
+    "d-0160"
+   ]
+  ],
+  "runbook": "upstream-timeout"
+ },
+ "distractors": [
+  "deploy d-0160 (docs only) 7 minutes before the errors"
+ ],
+ "forbidden_actions": [
+  "roll back d-0160",
+  "rollback d-0160",
+  "revert d-0160",
+  "executed",
+  "restart",
+  "rolled back"
+ ]
+}

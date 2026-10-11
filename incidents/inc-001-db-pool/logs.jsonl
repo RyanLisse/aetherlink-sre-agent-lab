@@ -1,0 +1,50 @@
+{"id": "L0001", "ts": "2026-10-11T13:40:02Z", "service": "checkout-api", "level": "info", "msg": "deploy started", "version": "1.14.0", "deploy_id": "d-0142"}
+{"id": "L0002", "ts": "2026-10-11T13:40:31Z", "service": "checkout-api", "level": "info", "msg": "config loaded", "DB_POOL_MAX": 5, "DB_POOL_TIMEOUT_MS": 2000, "FEATURE_FAST_CHECKOUT": true}
+{"id": "L0003", "ts": "2026-10-11T13:41:00Z", "service": "checkout-api", "level": "info", "msg": "deploy finished", "version": "1.14.0", "deploy_id": "d-0142"}
+{"id": "L0004", "ts": "2026-10-11T13:42:10Z", "service": "checkout-api", "level": "info", "msg": "POST /checkout 200", "latency_ms": 100}
+{"id": "L0005", "ts": "2026-10-11T13:45:10Z", "service": "checkout-api", "level": "info", "msg": "POST /checkout 200", "latency_ms": 140}
+{"id": "L0006", "ts": "2026-10-11T13:48:10Z", "service": "checkout-api", "level": "info", "msg": "POST /checkout 200", "latency_ms": 89}
+{"id": "L0007", "ts": "2026-10-11T13:51:10Z", "service": "checkout-api", "level": "info", "msg": "POST /checkout 200", "latency_ms": 105}
+{"id": "L0008", "ts": "2026-10-11T13:54:10Z", "service": "checkout-api", "level": "info", "msg": "POST /checkout 200", "latency_ms": 121}
+{"id": "L0009", "ts": "2026-10-11T13:57:10Z", "service": "checkout-api", "level": "info", "msg": "POST /checkout 200", "latency_ms": 83}
+{"id": "L0010", "ts": "2026-10-11T13:55:12Z", "service": "checkout-api", "level": "warn", "msg": "cache miss ratio high", "ratio": 0.31}
+{"id": "L0011", "ts": "2026-10-11T13:58:40Z", "service": "checkout-api", "level": "warn", "msg": "psp upstream slow", "upstream": "psp-sandbox", "latency_ms": 620}
+{"id": "L0012", "ts": "2026-10-11T14:02:00Z", "service": "checkout-api", "level": "warn", "msg": "db pool wait", "waiting": 10, "active": 5, "max": 5}
+{"id": "L0013", "ts": "2026-10-11T14:02:07Z", "service": "checkout-api", "level": "warn", "msg": "db pool wait", "waiting": 25, "active": 5, "max": 5}
+{"id": "L0014", "ts": "2026-10-11T14:02:14Z", "service": "checkout-api", "level": "warn", "msg": "db pool wait", "waiting": 11, "active": 5, "max": 5}
+{"id": "L0015", "ts": "2026-10-11T14:02:21Z", "service": "checkout-api", "level": "warn", "msg": "db pool wait", "waiting": 19, "active": 5, "max": 5}
+{"id": "L0016", "ts": "2026-10-11T14:02:28Z", "service": "checkout-api", "level": "warn", "msg": "db pool wait", "waiting": 26, "active": 5, "max": 5}
+{"id": "L0017", "ts": "2026-10-11T14:02:35Z", "service": "checkout-api", "level": "warn", "msg": "db pool wait", "waiting": 9, "active": 5, "max": 5}
+{"id": "L0018", "ts": "2026-10-11T14:02:42Z", "service": "checkout-api", "level": "warn", "msg": "db pool wait", "waiting": 24, "active": 5, "max": 5}
+{"id": "L0019", "ts": "2026-10-11T14:02:49Z", "service": "checkout-api", "level": "warn", "msg": "db pool wait", "waiting": 14, "active": 5, "max": 5}
+{"id": "L0020", "ts": "2026-10-11T14:02:56Z", "service": "checkout-api", "level": "warn", "msg": "db pool wait", "waiting": 9, "active": 5, "max": 5}
+{"id": "L0021", "ts": "2026-10-11T14:03:03Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0022", "ts": "2026-10-11T14:03:04Z", "service": "checkout-api", "level": "error", "msg": "POST /checkout 503", "latency_ms": 2011}
+{"id": "L0023", "ts": "2026-10-11T14:03:09Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0024", "ts": "2026-10-11T14:03:10Z", "service": "checkout-api", "level": "error", "msg": "POST /checkout 503", "latency_ms": 2011}
+{"id": "L0025", "ts": "2026-10-11T14:03:15Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0026", "ts": "2026-10-11T14:03:16Z", "service": "checkout-api", "level": "error", "msg": "POST /checkout 503", "latency_ms": 2011}
+{"id": "L0027", "ts": "2026-10-11T14:03:21Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0028", "ts": "2026-10-11T14:03:22Z", "service": "checkout-api", "level": "error", "msg": "POST /checkout 503", "latency_ms": 2011}
+{"id": "L0029", "ts": "2026-10-11T14:03:27Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0030", "ts": "2026-10-11T14:03:28Z", "service": "checkout-api", "level": "error", "msg": "POST /checkout 503", "latency_ms": 2011}
+{"id": "L0031", "ts": "2026-10-11T14:03:33Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0032", "ts": "2026-10-11T14:03:34Z", "service": "checkout-api", "level": "error", "msg": "POST /checkout 503", "latency_ms": 2011}
+{"id": "L0033", "ts": "2026-10-11T14:03:39Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0034", "ts": "2026-10-11T14:03:40Z", "service": "checkout-api", "level": "error", "msg": "POST /checkout 503", "latency_ms": 2011}
+{"id": "L0035", "ts": "2026-10-11T14:03:45Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0036", "ts": "2026-10-11T14:03:46Z", "service": "checkout-api", "level": "error", "msg": "POST /checkout 503", "latency_ms": 2011}
+{"id": "L0037", "ts": "2026-10-11T14:03:51Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0038", "ts": "2026-10-11T14:03:52Z", "service": "checkout-api", "level": "error", "msg": "POST /checkout 503", "latency_ms": 2011}
+{"id": "L0039", "ts": "2026-10-11T14:03:57Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0040", "ts": "2026-10-11T14:03:58Z", "service": "checkout-api", "level": "error", "msg": "POST /checkout 503", "latency_ms": 2011}
+{"id": "L0041", "ts": "2026-10-11T14:04:20Z", "service": "checkout-api", "level": "warn", "msg": "psp upstream slow", "upstream": "psp-sandbox", "latency_ms": 580}
+{"id": "L0042", "ts": "2026-10-11T14:05:00Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0043", "ts": "2026-10-11T14:05:08Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0044", "ts": "2026-10-11T14:05:16Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0045", "ts": "2026-10-11T14:05:24Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0046", "ts": "2026-10-11T14:05:32Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0047", "ts": "2026-10-11T14:05:40Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0048", "ts": "2026-10-11T14:05:48Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0049", "ts": "2026-10-11T14:05:56Z", "service": "checkout-api", "level": "error", "msg": "timeout acquiring db connection from pool after 2000ms", "pool_max": 5, "route": "/checkout"}
+{"id": "L0050", "ts": "2026-10-11T14:05:30Z", "service": "postgres", "level": "info", "msg": "postgres connections", "active": 5, "max_connections": 200}

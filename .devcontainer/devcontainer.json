@@ -1,0 +1,15 @@
+{
+  "name": "AetherLink SRE agent lab",
+  "dockerComposeFile": ["../compose.yaml", "../compose.agent.yaml"],
+  "service": "agent",
+  "runServices": ["agent"],
+  "workspaceFolder": "/workspace/lab",
+  "remoteUser": "node",
+  "overrideCommand": true,
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "extensions": ["anthropic.claude-code"]
+    }
+  }
+}

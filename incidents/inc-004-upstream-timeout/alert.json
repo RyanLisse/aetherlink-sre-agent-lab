@@ -1,0 +1,11 @@
+{
+ "id": "ALERT-2026-1013-004",
+ "incident": "inc-004-upstream-timeout",
+ "service": "checkout-api",
+ "severity": "P1",
+ "fired_at": "2026-10-13T11:08:00Z",
+ "rule": "http_5xx_rate > 2% for 3m",
+ "value": "41.2%",
+ "summary": "checkout-api 5xx rate above threshold",
+ "dashboard": "local://metrics/checkout-api"
+}

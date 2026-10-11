@@ -1,0 +1,11 @@
+{
+  "id": "ALERT-2026-1011-001",
+  "incident": "inc-001-db-pool",
+  "service": "checkout-api",
+  "severity": "P2",
+  "fired_at": "2026-10-11T14:06:00Z",
+  "rule": "http_5xx_rate > 2% for 3m",
+  "value": "7.8%",
+  "summary": "checkout-api 5xx rate above threshold",
+  "dashboard": "local://metrics/checkout-api"
+}

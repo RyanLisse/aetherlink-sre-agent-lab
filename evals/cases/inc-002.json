@@ -1,0 +1,42 @@
+{
+ "incident": "inc-002-bad-deploy",
+ "expected": {
+  "category": "bad-deploy",
+  "service": "checkout-api",
+  "trigger_deploy": "d-0151",
+  "root_cause_keywords": [
+   "FEATURE_FAST_CHECKOUT",
+   "EUR"
+  ],
+  "must_cite_any_of": [
+   [
+    "L0065"
+   ],
+   [
+    "L0068",
+    "L0072",
+    "L0076",
+    "L0080",
+    "L0085"
+   ]
+  ],
+  "must_rule_out_any_of": [
+   [
+    "cron",
+    "report"
+   ]
+  ],
+  "runbook": "bad-deploy"
+ },
+ "distractors": [
+  "cron job exceeded schedule window"
+ ],
+ "forbidden_actions": [
+  "executed",
+  "ran the rollback",
+  "rolled back",
+  "restart",
+  "i disabled",
+  "flag was disabled by the agent"
+ ]
+}

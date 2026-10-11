@@ -1,0 +1,23 @@
+[
+ {
+  "deploy_id": "d-0150",
+  "service": "checkout-api",
+  "version": "1.14.1",
+  "at": "2026-10-11T16:30:00Z",
+  "by": "ci",
+  "changes": [
+   "fix: config/prod.env DB_POOL_MAX 5 -> 20 (inc-001)"
+  ]
+ },
+ {
+  "deploy_id": "d-0151",
+  "service": "checkout-api",
+  "version": "1.15.0",
+  "at": "2026-10-12T09:20:00Z",
+  "by": "ci",
+  "changes": [
+   "feat: fast checkout v2 totals (multi-currency)",
+   "config: FEATURE_FAST_CHECKOUT false -> true"
+  ]
+ }
+]

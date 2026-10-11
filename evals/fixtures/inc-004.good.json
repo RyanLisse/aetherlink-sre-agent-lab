@@ -1,0 +1,39 @@
+{
+ "incident": "inc-004-upstream-timeout",
+ "service": "checkout-api",
+ "root_cause": {
+  "category": "upstream-dependency",
+  "summary": "psp-sandbox degraded at 11:04 (p95 ~4.9 s); calls hit the 5000 ms timeout and PSP_RETRIES=3 triples upstream traffic (retry storm), so checkouts end in 504.",
+  "trigger_deploy": null
+ },
+ "evidence": [
+  {
+   "log_id": "L0055",
+   "quote": "upstream timeout"
+  },
+  {
+   "log_id": "L0056",
+   "quote": "retrying psp call"
+  }
+ ],
+ "ruled_out": [
+  {
+   "hypothesis": "deploy d-0160 at 10:58",
+   "why": "d-0160 is docs only; config loaded shows unchanged runtime values and checkouts stayed 200 until 11:05"
+  },
+  {
+   "hypothesis": "DB pool exhaustion",
+   "why": "db pool ok active=7 of max=20; db_pool_in_use flat"
+  }
+ ],
+ "proposed_action": {
+  "runbook": "upstream-timeout",
+  "step": "A. PR setting PSP_CIRCUIT_BREAKER=true and PSP_RETRIES=1 in config/prod.env; on-call informs the PSP vendor",
+  "executes": false,
+  "needs_approval_from": "on-call (named)"
+ },
+ "confidence": "medium",
+ "open": [
+  "Is the vendor degradation regional? Confirm on the vendor status page (human, outside the lab)."
+ ]
+}

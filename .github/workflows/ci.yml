@@ -1,0 +1,41 @@
+# Runs fully offline after `npm ci`: no model, no API key, no Vertex, no external MCP. Twin of .gitlab-ci.yml.
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native:
+    name: native (${{ matrix.os }}, node ${{ matrix.node }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [22, 24]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ matrix.node }}", cache: npm }
+      - run: npm ci
+      - run: npm test
+      - run: npm run test:hooks
+      - run: npm run eval
+      - run: npm run check:approval   # fix/* branches need a named human approval (approvals/approvals.jsonl)
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: lab image, tests without network
+        run: |
+          docker build --target lab -t sre-lab:ci .
+          docker run --rm --network none sre-lab:ci npm test
+          docker run --rm --network none sre-lab:ci npm run test:hooks
+          docker run --rm --network none sre-lab:ci npm run eval
+      - name: compose files resolve without any credentials
+        run: |
+          docker compose -f compose.yaml config --quiet
+          docker compose -f compose.yaml -f compose.agent.yaml config --quiet

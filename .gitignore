@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.*
+approvals/*.jsonl
+.lab/
+*.pem
+*.key
+application_default_credentials.json

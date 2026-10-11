@@ -1,0 +1,175 @@
+{"id":"L0001","ts":"2026-10-13T10:40:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":343,"latency_ms":388}
+{"id":"L0002","ts":"2026-10-13T10:40:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":259,"latency_ms":330}
+{"id":"L0003","ts":"2026-10-13T10:41:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":291,"latency_ms":379}
+{"id":"L0004","ts":"2026-10-13T10:41:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":269,"latency_ms":426}
+{"id":"L0005","ts":"2026-10-13T10:42:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":280,"latency_ms":332}
+{"id":"L0006","ts":"2026-10-13T10:42:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":316,"latency_ms":395}
+{"id":"L0007","ts":"2026-10-13T10:43:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":339,"latency_ms":320}
+{"id":"L0008","ts":"2026-10-13T10:43:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":255,"latency_ms":358}
+{"id":"L0009","ts":"2026-10-13T10:44:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":357,"latency_ms":388}
+{"id":"L0010","ts":"2026-10-13T10:44:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":268,"latency_ms":392}
+{"id":"L0011","ts":"2026-10-13T10:45:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":246,"latency_ms":370}
+{"id":"L0012","ts":"2026-10-13T10:45:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":329,"latency_ms":417}
+{"id":"L0013","ts":"2026-10-13T10:46:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":354,"latency_ms":400}
+{"id":"L0014","ts":"2026-10-13T10:46:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":349,"latency_ms":352}
+{"id":"L0015","ts":"2026-10-13T10:47:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":319,"latency_ms":370}
+{"id":"L0016","ts":"2026-10-13T10:47:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":280,"latency_ms":338}
+{"id":"L0017","ts":"2026-10-13T10:48:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":288,"latency_ms":334}
+{"id":"L0018","ts":"2026-10-13T10:48:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":305,"latency_ms":431}
+{"id":"L0019","ts":"2026-10-13T10:49:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":329,"latency_ms":435}
+{"id":"L0020","ts":"2026-10-13T10:49:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":343,"latency_ms":411}
+{"id":"L0021","ts":"2026-10-13T10:50:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":344,"latency_ms":377}
+{"id":"L0022","ts":"2026-10-13T10:50:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":325,"latency_ms":350}
+{"id":"L0023","ts":"2026-10-13T10:51:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":310,"latency_ms":392}
+{"id":"L0024","ts":"2026-10-13T10:51:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":291,"latency_ms":394}
+{"id":"L0025","ts":"2026-10-13T10:52:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":288,"latency_ms":350}
+{"id":"L0026","ts":"2026-10-13T10:52:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":326,"latency_ms":387}
+{"id":"L0027","ts":"2026-10-13T10:53:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":268,"latency_ms":407}
+{"id":"L0028","ts":"2026-10-13T10:53:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":297,"latency_ms":420}
+{"id":"L0029","ts":"2026-10-13T10:54:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":335,"latency_ms":422}
+{"id":"L0030","ts":"2026-10-13T10:54:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":284,"latency_ms":367}
+{"id":"L0031","ts":"2026-10-13T10:55:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":279,"latency_ms":363}
+{"id":"L0032","ts":"2026-10-13T10:55:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":355,"latency_ms":425}
+{"id":"L0033","ts":"2026-10-13T10:56:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":302,"latency_ms":400}
+{"id":"L0034","ts":"2026-10-13T10:56:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":280,"latency_ms":375}
+{"id":"L0035","ts":"2026-10-13T10:57:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":265,"latency_ms":434}
+{"id":"L0036","ts":"2026-10-13T10:57:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":342,"latency_ms":349}
+{"id":"L0037","ts":"2026-10-13T10:58:00Z","service":"checkout-api","level":"info","msg":"deploy started","version":"1.15.2","deploy_id":"d-0160"}
+{"id":"L0038","ts":"2026-10-13T10:58:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":321,"latency_ms":386}
+{"id":"L0039","ts":"2026-10-13T10:58:20Z","service":"checkout-api","level":"info","msg":"config loaded","DB_POOL_MAX":20,"FEATURE_FAST_CHECKOUT":false,"PSP_RETRIES":3,"PSP_TIMEOUT_MS":5000,"PSP_CIRCUIT_BREAKER":false}
+{"id":"L0040","ts":"2026-10-13T10:58:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":240,"latency_ms":338}
+{"id":"L0041","ts":"2026-10-13T10:58:40Z","service":"checkout-api","level":"info","msg":"deploy finished","version":"1.15.2","deploy_id":"d-0160","note":"docs only, no runtime change"}
+{"id":"L0042","ts":"2026-10-13T10:59:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":260,"latency_ms":400}
+{"id":"L0043","ts":"2026-10-13T10:59:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":306,"latency_ms":342}
+{"id":"L0044","ts":"2026-10-13T11:00:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":274,"latency_ms":364}
+{"id":"L0045","ts":"2026-10-13T11:00:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":305,"latency_ms":414}
+{"id":"L0046","ts":"2026-10-13T11:01:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":340,"latency_ms":383}
+{"id":"L0047","ts":"2026-10-13T11:01:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":299,"latency_ms":357}
+{"id":"L0048","ts":"2026-10-13T11:02:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":296,"latency_ms":400}
+{"id":"L0049","ts":"2026-10-13T11:02:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":326,"latency_ms":404}
+{"id":"L0050","ts":"2026-10-13T11:03:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":328,"latency_ms":389}
+{"id":"L0051","ts":"2026-10-13T11:03:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":317,"latency_ms":372}
+{"id":"L0052","ts":"2026-10-13T11:04:05Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":326,"latency_ms":380}
+{"id":"L0053","ts":"2026-10-13T11:04:30Z","service":"checkout-api","level":"warn","msg":"psp health probe degraded","upstream":"psp-sandbox","p95_ms":4870}
+{"id":"L0054","ts":"2026-10-13T11:04:35Z","service":"checkout-api","level":"info","msg":"POST /checkout 200","upstream":"psp-sandbox","psp_latency_ms":345,"latency_ms":333}
+{"id":"L0055","ts":"2026-10-13T11:05:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0056","ts":"2026-10-13T11:05:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0057","ts":"2026-10-13T11:05:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0058","ts":"2026-10-13T11:05:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15193}
+{"id":"L0059","ts":"2026-10-13T11:05:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0060","ts":"2026-10-13T11:05:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0061","ts":"2026-10-13T11:05:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0062","ts":"2026-10-13T11:05:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15240}
+{"id":"L0063","ts":"2026-10-13T11:06:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0064","ts":"2026-10-13T11:06:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0065","ts":"2026-10-13T11:06:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0066","ts":"2026-10-13T11:06:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15035}
+{"id":"L0067","ts":"2026-10-13T11:06:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0068","ts":"2026-10-13T11:06:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0069","ts":"2026-10-13T11:06:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0070","ts":"2026-10-13T11:06:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15246}
+{"id":"L0071","ts":"2026-10-13T11:07:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0072","ts":"2026-10-13T11:07:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0073","ts":"2026-10-13T11:07:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0074","ts":"2026-10-13T11:07:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15279}
+{"id":"L0075","ts":"2026-10-13T11:07:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0076","ts":"2026-10-13T11:07:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0077","ts":"2026-10-13T11:07:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0078","ts":"2026-10-13T11:07:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15160}
+{"id":"L0079","ts":"2026-10-13T11:08:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0080","ts":"2026-10-13T11:08:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0081","ts":"2026-10-13T11:08:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0082","ts":"2026-10-13T11:08:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15084}
+{"id":"L0083","ts":"2026-10-13T11:08:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0084","ts":"2026-10-13T11:08:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0085","ts":"2026-10-13T11:08:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0086","ts":"2026-10-13T11:08:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15047}
+{"id":"L0087","ts":"2026-10-13T11:09:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0088","ts":"2026-10-13T11:09:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0089","ts":"2026-10-13T11:09:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0090","ts":"2026-10-13T11:09:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15153}
+{"id":"L0091","ts":"2026-10-13T11:09:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0092","ts":"2026-10-13T11:09:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0093","ts":"2026-10-13T11:09:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0094","ts":"2026-10-13T11:09:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15226}
+{"id":"L0095","ts":"2026-10-13T11:09:50Z","service":"checkout-api","level":"info","msg":"db pool ok","active":7,"max":20}
+{"id":"L0096","ts":"2026-10-13T11:10:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0097","ts":"2026-10-13T11:10:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0098","ts":"2026-10-13T11:10:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0099","ts":"2026-10-13T11:10:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15166}
+{"id":"L0100","ts":"2026-10-13T11:10:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0101","ts":"2026-10-13T11:10:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0102","ts":"2026-10-13T11:10:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0103","ts":"2026-10-13T11:10:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15035}
+{"id":"L0104","ts":"2026-10-13T11:11:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0105","ts":"2026-10-13T11:11:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0106","ts":"2026-10-13T11:11:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0107","ts":"2026-10-13T11:11:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15256}
+{"id":"L0108","ts":"2026-10-13T11:11:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0109","ts":"2026-10-13T11:11:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0110","ts":"2026-10-13T11:11:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0111","ts":"2026-10-13T11:11:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15036}
+{"id":"L0112","ts":"2026-10-13T11:12:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0113","ts":"2026-10-13T11:12:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0114","ts":"2026-10-13T11:12:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0115","ts":"2026-10-13T11:12:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15099}
+{"id":"L0116","ts":"2026-10-13T11:12:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0117","ts":"2026-10-13T11:12:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0118","ts":"2026-10-13T11:12:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0119","ts":"2026-10-13T11:12:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15164}
+{"id":"L0120","ts":"2026-10-13T11:13:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0121","ts":"2026-10-13T11:13:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0122","ts":"2026-10-13T11:13:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0123","ts":"2026-10-13T11:13:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15103}
+{"id":"L0124","ts":"2026-10-13T11:13:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0125","ts":"2026-10-13T11:13:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0126","ts":"2026-10-13T11:13:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0127","ts":"2026-10-13T11:13:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15179}
+{"id":"L0128","ts":"2026-10-13T11:14:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0129","ts":"2026-10-13T11:14:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0130","ts":"2026-10-13T11:14:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0131","ts":"2026-10-13T11:14:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15204}
+{"id":"L0132","ts":"2026-10-13T11:14:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0133","ts":"2026-10-13T11:14:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0134","ts":"2026-10-13T11:14:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0135","ts":"2026-10-13T11:14:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15133}
+{"id":"L0136","ts":"2026-10-13T11:15:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0137","ts":"2026-10-13T11:15:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0138","ts":"2026-10-13T11:15:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0139","ts":"2026-10-13T11:15:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15220}
+{"id":"L0140","ts":"2026-10-13T11:15:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0141","ts":"2026-10-13T11:15:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0142","ts":"2026-10-13T11:15:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0143","ts":"2026-10-13T11:15:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15171}
+{"id":"L0144","ts":"2026-10-13T11:16:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0145","ts":"2026-10-13T11:16:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0146","ts":"2026-10-13T11:16:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0147","ts":"2026-10-13T11:16:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15018}
+{"id":"L0148","ts":"2026-10-13T11:16:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0149","ts":"2026-10-13T11:16:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0150","ts":"2026-10-13T11:16:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0151","ts":"2026-10-13T11:16:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15018}
+{"id":"L0152","ts":"2026-10-13T11:17:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0153","ts":"2026-10-13T11:17:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0154","ts":"2026-10-13T11:17:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0155","ts":"2026-10-13T11:17:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15064}
+{"id":"L0156","ts":"2026-10-13T11:17:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0157","ts":"2026-10-13T11:17:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0158","ts":"2026-10-13T11:17:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0159","ts":"2026-10-13T11:17:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15220}
+{"id":"L0160","ts":"2026-10-13T11:18:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0161","ts":"2026-10-13T11:18:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0162","ts":"2026-10-13T11:18:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0163","ts":"2026-10-13T11:18:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15124}
+{"id":"L0164","ts":"2026-10-13T11:18:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0165","ts":"2026-10-13T11:18:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0166","ts":"2026-10-13T11:18:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0167","ts":"2026-10-13T11:18:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15117}
+{"id":"L0168","ts":"2026-10-13T11:19:05Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0169","ts":"2026-10-13T11:19:10Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0170","ts":"2026-10-13T11:19:15Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0171","ts":"2026-10-13T11:19:20Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15264}
+{"id":"L0172","ts":"2026-10-13T11:19:35Z","service":"checkout-api","level":"error","msg":"upstream timeout","upstream":"psp-sandbox","after_ms":5000,"attempt":"1/3"}
+{"id":"L0173","ts":"2026-10-13T11:19:40Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"2/3"}
+{"id":"L0174","ts":"2026-10-13T11:19:45Z","service":"checkout-api","level":"warn","msg":"retrying psp call","upstream":"psp-sandbox","attempt":"3/3"}
+{"id":"L0175","ts":"2026-10-13T11:19:50Z","service":"checkout-api","level":"error","msg":"POST /checkout 504","upstream":"psp-sandbox","latency_ms":15240}

@@ -1,0 +1,36 @@
+# Lab without a model: tests, evals, hooks, approve, the local MCP. No network at run time (network_mode: none).
+#   docker compose build                     (once, before the workshop; needs internet for the npm packages)
+#   docker compose up lab                    (= npm test, then exits)
+#   docker compose run --rm lab npm run test:hooks
+#   docker compose run --rm lab npm run eval
+#   docker compose run --rm lab npm run approve -- <jouw-naam> fix/<branch> "<reden>"   (a HUMAN runs this)
+# Optional: Claude Code in the container via compose.agent.yaml, and Vertex via compose.vertex.yaml (see INSTALL-DOCKER.md).
+name: sre-lab
+services:
+  lab:
+    build: { context: ., target: lab }
+    image: aetherlink-sre-lab:lab
+    working_dir: /workspace/lab
+    network_mode: none
+    environment:
+      - SRE_DATA_ROOT=/workspace/lab
+    volumes:
+      - .:/workspace/lab
+      - node_modules:/workspace/lab/node_modules
+    command: ["npm", "test"]
+  mcp:
+    # The `sre` MCP server over stdio, for a Claude Code that runs on the HOST (fallback route, see README).
+    image: aetherlink-sre-lab:lab
+    build: { context: ., target: lab }
+    working_dir: /workspace/lab
+    network_mode: none
+    stdin_open: true
+    environment:
+      - SRE_DATA_ROOT=/workspace/lab
+    volumes:
+      - .:/workspace/lab:ro
+      - node_modules:/workspace/lab/node_modules
+    command: ["node", "node_modules/tsx/dist/cli.mjs", "mcp/server.ts"]
+    profiles: ["mcp"]
+volumes:
+  node_modules: {}

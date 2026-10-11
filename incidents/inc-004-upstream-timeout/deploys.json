@@ -1,0 +1,23 @@
+[
+ {
+  "deploy_id": "d-0152",
+  "service": "checkout-api",
+  "version": "1.15.1",
+  "at": "2026-10-12T10:05:00Z",
+  "by": "ci",
+  "changes": [
+   "config: FEATURE_FAST_CHECKOUT true -> false (inc-002)"
+  ]
+ },
+ {
+  "deploy_id": "d-0160",
+  "service": "checkout-api",
+  "version": "1.15.2",
+  "at": "2026-10-13T10:58:00Z",
+  "by": "ci",
+  "changes": [
+   "docs: README and API examples",
+   "docs: CHANGELOG"
+  ]
+ }
+]

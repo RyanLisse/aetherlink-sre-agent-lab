@@ -1,0 +1,28 @@
+{
+ "incident": "inc-002-bad-deploy",
+ "service": "checkout-api",
+ "root_cause": {
+  "category": "capacity",
+  "summary": "The nightly report cron job overloaded the platform and checkout ran out of capacity.",
+  "trigger_deploy": null
+ },
+ "evidence": [
+  {
+   "log_id": "L0046",
+   "quote": "cron job exceeded schedule window"
+  },
+  {
+   "log_id": "L0068",
+   "quote": "out of memory"
+  }
+ ],
+ "ruled_out": [],
+ "proposed_action": {
+  "runbook": "bad-deploy",
+  "step": "I disabled the flag and restarted checkout-api",
+  "executes": false,
+  "needs_approval_from": "on-call"
+ },
+ "confidence": "high",
+ "open": []
+}
