@@ -71,6 +71,9 @@ check("gh pr merge always denied", "deny", P("Bash", "command", "gh pr merge --s
 check("gh pr review --approve always denied", "deny", P("Bash", "command", "gh pr review 12 --approve"));
 check("glab mr approve always denied", "deny", P("Bash", "command", "glab mr approve 7"));
 check("glab mr merge always denied", "deny", P("Bash", "command", "glab mr merge 7"));
+check("write rpi document allowed", "allow", P("Write", "file_path", D("docs/rpi/task/01-research.md")));
+check("edit CLAUDE.md asks (improve-claude-md)", "ask", P("Edit", "file_path", D("CLAUDE.md")));
+check("edit PROGRESS.md denied (hook-owned log)", "deny", P("Edit", "file_path", D("PROGRESS.md")));
 check("npm test untouched", "none", P("Bash", "command", "npm test"));
 check("garbage input fails closed", "deny", "{not json");
 

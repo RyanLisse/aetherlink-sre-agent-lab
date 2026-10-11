@@ -109,7 +109,7 @@ claude
 3. Typ `/status` → je ziet je eigen login (of Google Vertex AI, als je die route gebruikt).
 4. Typ `/mcp` → `sre` staat op **connected**.
 5. Typ `/` → in de lijst staan `design-control-loop`, `grilling`, `show-me`, `verify-this`, `review-and-ship`, `visual-pr`, `handoff` en `incident-triage`.
-6. Open `progress.md`: in het blok tussen `AUTO:START` en `AUTO:END` staat "0 · Setup" nu afgevinkt.
+6. Draai `npm run progress -- --status`: "STEP-0 Setup" staat nu op `[x]`, en onderaan `PROGRESS.md` staat een entry `(STEP-0)`.
 7. Stoppen: typ `/exit`.
 
 ---
@@ -155,7 +155,7 @@ Alleen als je organisatie Claude aanbiedt via **Google Vertex AI**. De waarden k
 | `npm ci` faalt met een netwerk- of proxyfout | Bedrijfsproxy: vraag IT om de npm-proxy-instellingen (https://docs.npmjs.com/cli/v10/using-npm/config#proxy). |
 | `npm test` of `test:hooks` faalt na `git pull` | `npm ci` opnieuw draaien. |
 | Windows: vreemde fouten met `^M` | De repo is met Windows-regeleindes uitgecheckt. Opnieuw clonen; de repo forceert LF via `.gitattributes`. |
-| Regels uit `.claude/settings.json` lijken te worden genegeerd, `progress.md` blijft 0/9 | De trust-vraag is niet geaccepteerd. Start `claude` opnieuw in de lab-map en kies **Yes**. |
+| Regels uit `.claude/settings.json` lijken te worden genegeerd, `npm run progress -- --status` blijft op 0/10 | De trust-vraag is niet geaccepteerd. Start `claude` opnieuw in de lab-map en kies **Yes**. |
 | MCP `sre` "Pending approval" of "failed" | Start `claude` in de lab-map (niet in een submap) en keur goed. Controleer dat `npm ci` gelukt is. |
 | Claude Code vraagt steeds om in te loggen | `/login` in Claude Code. Zie https://code.claude.com/docs/en/authentication |
 | Vertex: "Could not load the default credentials" | `gcloud auth application-default login` opnieuw, daarna `claude` opnieuw. |

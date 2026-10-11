@@ -80,14 +80,14 @@ switch (tool) {
   case "NotebookEdit": {
     if (SECRET.test(rel) || SECRET.test(rawPath)) decide("deny", "Secrets, credentials and .env files are off limits.");
     if (rel.startsWith("..") || isAbsolute(rel)) decide("deny", `Writes outside the lab repo are blocked ('${rawPath}').`);
-    if (/^docs\/(diagnoses|verify|show-me|pr)\//.test(rel)) decide("allow", "Diagnoses, verify-this evidence, show-me visuals and PR/MR descriptions are the agent's own output.");
+    if (/^docs\/(diagnoses|verify|show-me|pr|rpi)\//.test(rel)) decide("allow", "Diagnoses, verify-this evidence, show-me visuals, PR/MR descriptions and RPI documents are the agent's own output.");
     if (/^app\//.test(rel)) {
       const b = branch();
       if (b.startsWith("fix/")) decide("ask", `Fix edit on ${b}; a human confirms each edit.`);
       decide("deny", "Code fixes only on a fix/* branch, and only as a PR/MR.");
     }
     // SDLC artefacts the team writes with Claude (intent, spec, plan, evidence, eval cases, tests): every edit confirmed by a human.
-    if (/^(intent\.md|HANDOFF\.md|docs\/(spec|design|plan|evidence|gate)\.md|docs\/decisions\/[^/]+\.md|evals\/(cases|fixtures)\/[^/]+\.json|evals\/schema\.ts|test\/[^/]+\.test\.ts)$/.test(rel))
+    if (/^(intent\.md|HANDOFF\.md|CLAUDE\.md|docs\/(spec|design|plan|evidence|gate)\.md|docs\/decisions\/[^/]+\.md|evals\/(cases|fixtures)\/[^/]+\.json|evals\/schema\.ts|test\/[^/]+\.test\.ts)$/.test(rel))
       decide("ask", `SDLC artefact '${rel}': a human confirms this edit.`);
     decide("deny", `Writes are limited to docs/diagnoses/, docs/verify/, docs/show-me/, docs/pr/, SDLC artefacts (ask) and app/ on a fix/* branch (ask). '${rel}' is protected.`);
   }

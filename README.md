@@ -64,7 +64,7 @@ Alleen als je organisatie Claude via Google Vertex AI aanbiedt: zet `CLAUDE_CODE
 | `step-7` | Maintain | nieuwe eval-case (inc-003, ontwerp) |
 | `step-8` | Hackathon | `HANDOFF.md` |
 
-Bekijken zonder je eigen werk kwijt te raken: `git diff main step-4`, of in een aparte map: `git worktree add ../lab-step-4 step-4`. Let op: de voortgangsstappen 0 en 3 in `progress.md` vinken pas af als de hook in jouw eigen sessie heeft gevuurd (bewijs in `approvals/audit.jsonl`, dat niet in git staat).
+Bekijken zonder je eigen werk kwijt te raken: `git diff main step-4`, of in een aparte map: `git worktree add ../lab-step-4 step-4`. Let op: de stappen STEP-0 en STEP-4 in `PROGRESS.md` krijgen pas een entry als de hook in jouw eigen sessie heeft gevuurd (bewijs in `approvals/audit.jsonl`, dat niet in git staat). De step-tags zelf bevatten nog de oudere `progress.md`; `main` heeft het nieuwe `PROGRESS.md`.
 
 ## Commando's
 
@@ -77,7 +77,8 @@ Bekijken zonder je eigen werk kwijt te raken: `git diff main step-4`, of in een 
 | Goedkeuren (**alleen een mens**, in een eigen terminal) | `npm run approve -- <jouw-naam> fix/<branch> "<reden>"` |
 | Gate-check zoals in CI | `npm run check:approval` |
 | Een skill van buiten scannen | `npm run skill:scan -- <map>` |
-| progress.md handmatig bijwerken | `npm run progress` |
+| Voortgang bekijken (schrijft niets) | `npm run progress -- --status` |
+| `PROGRESS.md` handmatig bijwerken | `npm run progress` |
 
 ## Incidenten
 
@@ -94,7 +95,7 @@ Elk gebouwd incident heeft `alert.json`, `logs.jsonl` (stabiele id's zoals `L002
 
 - **`.claude/settings.json`**: allow/ask/deny, `disableBypassPermissionsMode`, `disableSkillShellExecution`, alleen MCP-server `sre`.
 - **`.claude/hooks/guard.mjs`** (PreToolUse, Node, geen bash/jq nodig): blokkeert netwerk, secrets en `approvals/`; schrijven mag alleen in `docs/diagnoses/`, `docs/verify/`, `docs/show-me/` en `docs/pr/`; SDLC-artefacten (intent, spec, plan, eval-cases) en `app/` op een `fix/*`-branch alleen na bevestiging; push, PR (`gh`) en MR (`glab`) alleen na een benoemde goedkeuring; mergen en PR/MR goedkeuren nooit door de agent. Elke beslissing staat in `approvals/audit.jsonl`.
-- **`.claude/hooks/progress.mjs`** (SessionStart, PostToolUse, Stop): werkt het AUTO-blok in `progress.md` bij uit echt bewijs. Schrijft alleen `progress.md`, lokaal, zonder netwerk.
+- **`.claude/hooks/progress.mjs`** (SessionStart, PostToolUse, Stop): voegt aan `PROGRESS.md` (het build-log volgens de template uit de skills-pack) een entry per stap toe zodra er echt bewijs is (`STEP-0` … `STEP-9`). Append-only: bestaande tekst wordt nooit aangepast, de velden *Why it mattered*, *How, and what was rejected* en *Deliberately not done* vul je zelf in. Schrijft alleen `PROGRESS.md`, lokaal, zonder netwerk.
 - Regex-regels zijn best-effort. Sterkere isolatie: de Docker-route (`lab` zonder netwerk), de [sandbox van Claude Code](https://code.claude.com/docs/en/sandboxing) of managed settings van je IT.
 
 ## De gate: GitHub én GitLab
@@ -118,7 +119,29 @@ Heeft Claude met `/visual-pr` een beschrijving in `docs/pr/<branch>.md` gezet, g
 
 ## Skills
 
-In `.claude/skills/` zit een **gekeurde subset**: `incident-triage` (policy) en `design-control-loop`, `grilling`, `show-me`, `verify-this`, `review-and-ship`, `visual-pr`, `handoff` uit het skills pack (`design-control-loop`, `show-me` en `visual-pr` komen van HumanLayer, MIT; licentietekst staat in de skill-map). Lab-aanpassingen: `design-control-loop` doet alleen het ontwerp-interview en vult `intent.md` (geen CI-agent, geen API-keys, geen permission-bypass); `verify-this` schrijft naar `docs/verify/`; `review-and-ship` kent ook `glab` en stopt bij de gate; `show-me` zet HTML in `docs/show-me/` (self-contained, geen `open`); `visual-pr` schrijft alleen `docs/pr/<branch>.md` en pusht of opent niets: de mens publiceert de PR (GitHub) of MR (GitLab). `eli5` zit in het volledige pack, niet in deze subset.
+In `.claude/skills/` zit een **gekeurde subset**, aangepast voor dit lab: geen netwerk, geen `!`-shellregels, en geen skill pusht, merget of opent zelf een PR/MR (dat doet de mens na de gate).
+
+| Skill | Waarvoor (moment in de workshop) | Herkomst | Lab-aanpassing |
+|---|---|---|---|
+| `incident-triage` | SRE-beleid voor elke diagnose | dit lab | n.v.t. |
+| `design-control-loop` | Plan: ontwerp-interview, vult `intent.md` (11:25) | HumanLayer | alleen fase A–B; geen CI-agent, API-keys of bypass |
+| `grilling` | Plan: fallback voor het interview | mattpocock/skills | geen |
+| `rpi` | Optioneel/hackathon: research → plan → implement | HumanLayer | artefacten in `docs/rpi/`, geen web-research-agent |
+| `show-me` | Diagnose uitleggen als HTML (13:52) | HumanLayer | `docs/show-me/`, self-contained, geen `open` |
+| `eli5` | Fallback voor `show-me`: simpel uitleggen | skills pack | geen |
+| `verify-this` | Test: claim bewijzen (14:55) | skills pack (Cursor team-kit) | schrijft naar `docs/verify/` |
+| `review-and-ship` | Gate: review tot aan de menselijke goedkeuring (15:15) | skills pack (Cursor team-kit) | kent `glab`, stopt bij de gate |
+| `visual-pr` | Gate: PR/MR-beschrijving met diagram (15:18) | HumanLayer | schrijft alleen `docs/pr/<branch>.md` |
+| `new-branch-and-pr` | Branch + commit voorbereiden | skills pack (Cursor team-kit) | stopt bij de commit; mens doet approve, push, `gh pr`/`glab mr` |
+| `make-pr-easy-to-review` | Reviewgids voor een grote PR/MR | skills pack (Cursor team-kit) | schrijft `docs/pr/`; opschoonplan alleen voor de mens |
+| `get-pr-comments` | Review-comments verwerken | skills pack (Cursor team-kit) | leest `docs/pr/comments.md` die jij exporteert |
+| `fix-ci` | Rode CI lokaal reproduceren en fixen | skills pack (Cursor team-kit) | lokale CI-commando's; logs plak jij in `docs/ci/`; geen push |
+| `deslop` | AI-ruis uit je diff halen | skills pack (Cursor team-kit) | diff tegen lokale `main`, geen `git fetch` |
+| `improve-claude-md` | Maintain: `CLAUDE.md` aanscherpen (15:30) | HumanLayer | geen; wijziging aan `CLAUDE.md` vraagt altijd jouw akkoord |
+| `cli-for-agents` | Hackathon: CLI's bouwen die agents goed kunnen gebruiken | skills pack (Cursor) | geen |
+| `handoff` | Hackathon: `HANDOFF.md` schrijven (15:40) | skills pack | geen |
+
+Bewust **niet** in het lab: `archify` (haalt externe code op via `git clone`/`npx`; het lab draait zonder netwerk, de guard zou hem blokkeren; hij blijft in het skills pack, met de waarschuwing voor externe code), `java-lts-migration` (Java-migratie, past niet bij dit lab) en `build-iterated-agentic-loop` (draait onbewaakt, met API-keys en zonder permissievragen).
 
 ### Skills van buiten ons pack: eerst lezen, dan installeren
 
@@ -142,4 +165,4 @@ Zie "Werkt het niet?" in [INSTALL.md](INSTALL.md) en [INSTALL-DOCKER.md](INSTALL
 
 ## Licentie
 
-MIT, zie [LICENSE](LICENSE). De skills `design-control-loop`, `show-me` en `visual-pr` in `.claude/skills/` zijn aangepaste versies van [humanlayer/skills](https://github.com/humanlayer/skills) (MIT, Copyright (c) 2026 HumanLayer); `grilling`, `verify-this`, `review-and-ship` en `handoff` komen uit [claude-code-skills-pack](https://github.com/RyanLisse/claude-code-skills-pack). Zie [NOTICE.md](NOTICE.md).
+MIT, zie [LICENSE](LICENSE). De skills `design-control-loop`, `show-me`, `visual-pr`, `rpi` en `improve-claude-md` in `.claude/skills/` komen (deels aangepast) van [humanlayer/skills](https://github.com/humanlayer/skills) (MIT, Copyright (c) 2026 HumanLayer); `grilling` van [mattpocock/skills](https://github.com/mattpocock/skills) (MIT); de overige uit [claude-code-skills-pack](https://github.com/RyanLisse/claude-code-skills-pack) (MIT, deels gebaseerd op Cursor team-kit, MIT). Zie [NOTICE.md](NOTICE.md).
