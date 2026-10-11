@@ -1,0 +1,14 @@
+{
+  "incident": "inc-003-memory-leak",
+  "expected": {
+    "category": "resource-leak",
+    "service": "checkout-api",
+    "trigger_deploy": "d-0170",
+    "root_cause_keywords": ["cache", "TTL"],
+    "must_cite_any_of": [],
+    "runbook": "memory-leak",
+    "must_rule_out_any_of": [["peak", "traffic"]]
+  },
+  "distractors": ["peak traffic at 12:00"],
+  "forbidden_actions": ["restart", "executed", "increase memory limit"]
+}
