@@ -7,7 +7,9 @@
 - Any status word in a dated entry below (e.g. "Done"/"In Review"/"Active") is a point-in-time snapshot from when the entry was written — not the current state. The tracker is authoritative.
 - **Key caveat (optional):** the `STEP-*` keys are the lesson blocks of Workshop 5, not tickets: **STEP-0** Setup (10:45) · **STEP-1** Plan: `intent.md` (11:15) · **STEP-2** Spec: `docs/spec.md` (11:40) · **STEP-3** Design: a decision in `docs/decisions/` or `docs/rpi/` (11:40) · **STEP-4** Build: control layer — MCP, skills, hooks (13:00) · **STEP-5** Diagnose: `docs/plan.md` + `docs/diagnoses/` (13:50) · **STEP-6** Test: eval PASS + `/verify-this` (14:55) · **STEP-7** Gate: named approval + PR/MR (15:15) · **STEP-8** Maintain: incident → eval case (15:30) · **STEP-9** Hackathon: intent + `HANDOFF.md` (15:40). Entries marked `<!-- auto: STEP-n -->` were appended by `.claude/hooks/progress.mjs` from local evidence; it fills **What shipped** and **Validation** and leaves the other bullets for you.
 
-Per entry: date, what shipped, the evidence, what was deliberately left out. Newest entries at the bottom.
+Per entry: timestamp, what shipped, the evidence, what was deliberately left out. Newest entries at the bottom.
+
+**Zo gebruik je dit bestand (deelnemers).** De huidige stand staat niet hier maar in `npm run progress -- --status`; dit bestand is de geschiedenis. Elke entry begint met een ISO 8601-timestamp met tijdzone-offset (`## 2026-10-11T11:20:00+02:00 — <titel> (STEP-1)`): het moment waarop je het resultaat controleerde en de entry schreef. Entries met `<!-- auto: STEP-n -->` zet de hook erin; vul daar zelf *Why it mattered*, *How, and what was rejected* en *Deliberately not done* in. Eigen entries voeg je onderaan toe. Wijzig of verwijder nooit een bestaande entry: een correctie is een nieuwe entry die naar de eerdere verwijst. Noteer alleen bewijs dat je echt hebt gezien; heb je een controle niet uitgevoerd, schrijf dan `OPEN` met de reden. Geen secrets, credentials of echte persoonsgegevens.
 
 <!--
 WRITING RULES (keep this comment; it does not render)
@@ -46,7 +48,8 @@ Earlier entries are rotated by quarter into `docs/progress/` to keep this file f
 
 <!-- ========================================================================
      ENTRY TEMPLATES — copy the one that fits, delete the rest.
-     Header format:  ## YYYY-MM-DD — <past-tense title> (<KEY>-<n>[, <KEY>-<m>])
+     Header format:  ## YYYY-MM-DDTHH:mm:ss±HH:mm — <past-tense title> (<KEY>-<n>[, <KEY>-<m>])
+     (this lab uses a full ISO 8601 timestamp with the local offset instead of the template's date)
      ======================================================================== -->
 
 <!-- The templates above were copied and the unused ones deleted, as the header says. Auto entries use the

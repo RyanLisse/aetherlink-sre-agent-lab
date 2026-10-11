@@ -22,7 +22,12 @@ const jsonl = (p) => read(p).split(/\r?\n/).filter(Boolean).flatMap((l) => { try
 const mtime = (p) => { try { return statSync(f(p)).mtimeMs; } catch { return 0; } };
 const filled = (p, minLen = 200) => { const t = read(p); return t.length >= minLen && !/\bTODO\b|<team>|<naam>/.test(t); };
 const pad = (n) => String(n).padStart(2, "0");
-const now = () => { const d = new Date(); return { date: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`, time: `${pad(d.getHours())}:${pad(d.getMinutes())}` }; };
+// ISO 8601 local time with offset, e.g. 2026-10-11T21:56:00+02:00 (the build-log header format).
+export const isoLocal = (d = new Date()) => {
+  const off = -d.getTimezoneOffset(), sign = off >= 0 ? "+" : "-", a = Math.abs(off);
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}${sign}${pad(Math.floor(a / 60))}:${pad(a % 60)}`;
+};
+const now = () => ({ stamp: isoLocal() });
 
 // Each step: done (bool), title (past tense), shipped (What shipped), validation (the evidence the hook saw).
 export function evidence() {
@@ -86,11 +91,11 @@ export const marker = (key) => `<!-- auto: ${key} -->`;
 
 export function entry(row, t = now()) {
   return [
-    `## ${t.date} — ${row.title} (${row.key})`, marker(row.key), "",
+    `## ${t.stamp} — ${row.title} (${row.key})`, marker(row.key), "",
     `- **What shipped:** ${row.shipped}`,
     `- **Why it mattered:** ${TODO("which gap or decision made this worth doing")}`,
     `- **How, and what was rejected:** ${TODO("the approach in one or two sentences, and the alternative you did not take")}`,
-    `- **Validation:** ${row.validation} Recorded by \`.claude/hooks/progress.mjs\` at ${t.time} from local files only; not a claim about anything not listed here.`,
+    `- **Validation:** ${row.validation} Recorded by \`.claude/hooks/progress.mjs\` from local files only, at the time in the header; not a claim about anything not listed here.`,
     `- **Deliberately not done:** ${TODO("what you left out on purpose, with an owner or a reason")}`,
     "", "---", "",
   ].join("\n");

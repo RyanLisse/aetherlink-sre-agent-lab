@@ -29,6 +29,7 @@ const template = readFileSync(join(here, "PROGRESS.md"), "utf8");
 // The file follows the skills-pack template.
 for (const s of ["# Build log", "**Historical, append-only.**", "WRITING RULES (keep this comment; it does not render)", "## Archive", "ENTRY TEMPLATES", "OPTIONAL BULLETS", "**Key caveat (optional):**"])
   ok(`template section present: ${s}`, template.includes(s));
+ok("template documents the ISO 8601 header format", template.includes("## YYYY-MM-DDTHH:mm:ss±HH:mm — <past-tense title>"));
 ok("template placeholders for tracker/project/key are filled", !/<TRACKER>|<PROJECT NAME>|<KEY>-\*/.test(template));
 ok("every STEP-0..9 key is defined in the key caveat", [...Array(10).keys()].every((n) => template.includes(`**STEP-${n}**`)));
 
@@ -38,13 +39,24 @@ ok("hook exits 0 silently", r.status === 0 && r.stdout === "");
 ok("fresh repo: no entries appended", log() === template);
 ok("writes only PROGRESS.md (no new top-level files)", readdirSync(dir).sort().join(",") === before);
 
-const human = "\n## 2026-10-11 — Our own note (STEP-1)\n\n- **What shipped:** hand-written.\n";
+// A complete hand-written, timestamped entry (from PR #1): must survive every hook run byte for byte.
+const human = `
+## 2026-10-11T21:30:00+02:00 — Documented the first diagnosis (STEP-5)
+
+- **What shipped:** The inc-001 diagnosis was recorded.
+- **Why it mattered:** The evidence needed a reviewable record.
+- **How, and what was rejected:** The entry cited the eval instead of claiming success from file presence.
+- **Validation:** \`npm run eval -- docs/diagnoses/inc-001.json\` was \`OPEN\`; the command had not run in this fixture.
+- **Deliberately not done:** A live provider check remained outside this local fixture.
+`;
 writeFileSync(join(dir, "PROGRESS.md"), log() + human);
 writeFileSync(join(dir, "approvals/audit.jsonl"), JSON.stringify({ decision: "deny", tool: "Bash", reason: "Network access is blocked" }) + "\n");
 run();
 ok("deny in audit.jsonl -> STEP-0 and STEP-4 entries appended", logged(0) && logged(4));
 ok("entry follows the feature template bullets", ["**What shipped:**", "**Why it mattered:**", "**How, and what was rejected:**", "**Validation:**", "**Deliberately not done:**"].every((b) => log().includes(b)));
-ok("entry header is '## YYYY-MM-DD — <title> (STEP-n)'", /^## \d{4}-\d{2}-\d{2} — .+ \(STEP-4\)$/m.test(log()));
+const hdr = log().match(/^## (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2})) — .+ \(STEP-4\)$/m);
+ok("entry header is '## <ISO 8601 with offset> — <title> (STEP-n)'", !!hdr);
+ok("timestamp is local time with the machine's offset and parses back", !!hdr && Math.abs(Date.parse(hdr[1]) - Date.now()) < 120000 && (() => { const o = -new Date().getTimezoneOffset(); return hdr[2] === `${o >= 0 ? "+" : "-"}${String(Math.floor(Math.abs(o) / 60)).padStart(2, "0")}:${String(Math.abs(o) % 60).padStart(2, "0")}`; })());
 ok("human-written entry is preserved verbatim", log().includes(human));
 ok("template text above the entries is untouched", log().startsWith(template));
 
@@ -79,6 +91,7 @@ writeFileSync(join(dir, "HANDOFF.md"), long("# Handoff")); run(); ok("HANDOFF.md
 
 ok("each step logged exactly once", [...Array(10).keys()].every((n) => log().split(`<!-- auto: STEP-${n} -->`).length === 2));
 const snap = log(); run(); run("Stop"); ok("append-only + idempotent: no change without new evidence", log() === snap);
+ok("hand-written timestamped entry survives repeated hook runs", log().includes(human));
 rmSync(join(dir, "HANDOFF.md")); run(); ok("evidence disappearing never edits an old entry", log() === snap);
 
 const st = spawnSync(process.execPath, [hook, "--status"], { env, encoding: "utf8" });

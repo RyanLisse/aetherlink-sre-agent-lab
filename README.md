@@ -80,6 +80,8 @@ Bekijken zonder je eigen werk kwijt te raken: `git diff main step-4`, of in een 
 | Voortgang bekijken (schrijft niets) | `npm run progress -- --status` |
 | `PROGRESS.md` handmatig bijwerken | `npm run progress` |
 
+`npm run progress -- --status` toont de huidige stand en schrijft niets. `PROGRESS.md` is de geschiedenis: de hook voegt per stap een entry toe met een ISO 8601-timestamp (bijv. `2026-10-11T11:20:00+02:00`); een eigen, geverifieerde entry voeg je zelf onderaan toe, met dezelfde timestamp-vorm.
+
 ## Incidenten
 
 | ID | Scenario | Status |
