@@ -56,7 +56,7 @@
       "Read(./secrets/**)",
       "Edit(./approvals/**)",
       "Edit(./.claude/**)",
-      "Edit(./progress.md)",
+      "Edit(./PROGRESS.md)",
       "PowerShell(Invoke-WebRequest *)",
       "PowerShell(Invoke-RestMethod *)"
     ],
