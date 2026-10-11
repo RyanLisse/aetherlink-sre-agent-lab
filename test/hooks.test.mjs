@@ -71,6 +71,7 @@ check("gh pr merge always denied", "deny", P("Bash", "command", "gh pr merge --s
 check("gh pr review --approve always denied", "deny", P("Bash", "command", "gh pr review 12 --approve"));
 check("glab mr approve always denied", "deny", P("Bash", "command", "glab mr approve 7"));
 check("glab mr merge always denied", "deny", P("Bash", "command", "glab mr merge 7"));
+check("team rule: git reset --hard denied", "deny", P("Bash", "command", "git reset --hard HEAD~1"));
 check("npm test untouched", "none", P("Bash", "command", "npm test"));
 check("garbage input fails closed", "deny", "{not json");
 

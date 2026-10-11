@@ -59,6 +59,8 @@ switch (tool) {
     if (NETWORK.test(cmd)) decide("deny", "Network access is blocked in this lab. Use the local sre MCP tools; ask a human if you need data you do not have.");
     if (SECRET.test(cmd)) decide("deny", "Secrets, credentials and .env files are off limits.");
     if (APPROVAL_TOUCH.test(cmd)) decide("deny", "Only a human writes approvals (npm run approve / scripts/approve.mjs, run outside Claude).");
+    // Team rule (step 3 example): no destructive git history rewrites by the agent.
+    if (/\bgit\s+(reset\s+--hard|push\s+[^|;&]*--force|clean\s+-[a-z]*f)/i.test(cmd)) decide("deny", "Destructive git commands are a human decision.");
     if (HUMAN_ONLY.test(cmd)) decide("deny", "Merging and approving a PR/MR is a human decision. Stop here and hand over to the named reviewer.");
     if (GATED.test(cmd)) {
       const b = branch();
