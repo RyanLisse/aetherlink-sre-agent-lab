@@ -1,9 +1,9 @@
-# Spec: diagnose-contract (template)
+# Spec: diagnosis contract (template)
 
-TODO: vul in tijdens blok Design (11:40). Zie `evals/schema.ts` voor het contract.
+TODO: fill in during the Design block (11:40). See `evals/schema.ts` for the contract.
 
-## Velden van `Diagnosis`
-TODO: per veld 1 regel: wat erin staat en waar het bewijs vandaan komt.
+## Fields of `Diagnosis`
+TODO: one line per field: what it contains and where the evidence comes from.
 
 ## Flagged concerns
-TODO: wat de agent NOOIT doet (executes: false), en wie goedkeurt.
+TODO: what the agent NEVER does (executes: false), and who approves.

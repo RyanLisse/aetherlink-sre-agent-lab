@@ -9,7 +9,7 @@
 
 Per entry: timestamp, what shipped, the evidence, what was deliberately left out. Newest entries at the bottom.
 
-**Zo gebruik je dit bestand (deelnemers).** De huidige stand staat niet hier maar in `npm run progress -- --status`; dit bestand is de geschiedenis. Elke entry begint met een ISO 8601-timestamp met tijdzone-offset (`## 2026-10-11T11:20:00+02:00 — <titel> (STEP-1)`): het moment waarop je het resultaat controleerde en de entry schreef. Entries met `<!-- auto: STEP-n -->` zet de hook erin; vul daar zelf *Why it mattered*, *How, and what was rejected* en *Deliberately not done* in. Eigen entries voeg je onderaan toe. Wijzig of verwijder nooit een bestaande entry: een correctie is een nieuwe entry die naar de eerdere verwijst. Noteer alleen bewijs dat je echt hebt gezien; heb je een controle niet uitgevoerd, schrijf dan `OPEN` met de reden. Geen secrets, credentials of echte persoonsgegevens.
+**How to use this file (participants).** The live status is not here but in `npm run progress -- --status`; this file is the history. Every entry starts with an ISO 8601 timestamp with timezone offset (`## 2026-10-11T11:20:00+02:00 — <title> (STEP-1)`): the moment you verified the result and wrote the entry. Entries marked `<!-- auto: STEP-n -->` are appended by the hook; fill in *Why it mattered*, *How, and what was rejected* and *Deliberately not done* yourself. Add your own entries at the bottom. Never change or delete an existing entry: a correction is a new entry that refers to the earlier one. Record only evidence you actually saw; if you did not run a check, write `OPEN` with the reason. No secrets, credentials or real personal data.
 
 <!--
 WRITING RULES (keep this comment; it does not render)

@@ -2,9 +2,20 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
 import { score } from "../evals/check.ts";
+import { Diagnosis } from "../evals/schema.ts";
 
 const cases = readdirSync("evals/cases").filter((f) => f.endsWith(".json")).map((f) => f.replace(".json", ""));
 const fx = (n: string) => JSON.parse(readFileSync(`evals/fixtures/${n}`, "utf8"));
+
+// If the schema gains a required top-level string field (the Spec exercise adds `blast_radius`),
+// a bad fixture must still reach the semantic checks: fill any missing required field with a
+// placeholder so rejection happens for the reasons being asserted, not for a schema gap.
+const withRequiredFields = (d: any) => {
+  for (const i of Diagnosis.safeParse(d).error?.issues ?? []) {
+    if (i.code === "invalid_type" && i.received === "undefined" && i.expected === "string" && i.path.length === 1) d[i.path[0]] = "x";
+  }
+  return d;
+};
 
 test("the three built incidents each have a case, a good and a bad fixture", () => {
   for (const c of ["inc-001", "inc-002", "inc-004"]) assert.ok(cases.includes(c), `case ${c}`);
@@ -25,7 +36,7 @@ for (const c of ["inc-001", "inc-002", "inc-004"]) {
 }
 
 test("inc-004: blaming the docs-only deploy is rejected even with real citations", () => {
-  const r = score(fx("inc-004.bad.json"));
+  const r = score(withRequiredFields(fx("inc-004.bad.json")));
   assert.ok(r.fails.some((f) => f.startsWith("trigger_deploy d-0160")));
   assert.ok(r.fails.some((f) => f.startsWith("distractor not ruled out")));
   assert.ok(!r.fails.some((f) => f.startsWith("invented evidence")), "bad fixture cites only real lines");

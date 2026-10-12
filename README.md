@@ -1,170 +1,186 @@
 # aetherlink-sre-agent-lab
 
-**Trainingsdemo van AetherLink Academy, Workshop 5 (AI-native SDLC).** Alleen fictieve sample-data: geen echte systemen, klanten of betaalgegevens. Bedoeld om te leren, niet voor productie.
+**Training demo by AetherLink Academy, Workshop 5 (AI-native SDLC).** Fictional sample data only: no real systems, customers or payment data. Meant for learning, not for production.
 
-Een SRE-agent op een kleine demo-app (`checkout-api`). De agent leest alerts, logs, metrics en deploys via een lokale, read-only MCP-server (`sre`), stelt een diagnose met geciteerd bewijs, en stelt één runbook-stap of een fix als PR/MR voor. **Hij voert nooit iets uit.** Hooks dwingen dat af; een benoemde mens keurt goed, pusht en merget.
+An SRE agent on a small demo app (`checkout-api`). The agent reads alerts, logs, metrics and deploys via a local, read-only MCP server (`sre`), produces a diagnosis with cited evidence, and proposes one runbook step or a fix as a PR/MR. **It never executes anything.** Hooks enforce that; a named human approves, pushes and merges.
 
-- Installatie stap voor stap (standaard, zonder Docker): **[INSTALL.md](INSTALL.md)**
-- Alternatief in Docker, voor wie problemen heeft of dat wil: **[INSTALL-DOCKER.md](INSTALL-DOCKER.md)**
+- Step-by-step install (standard, no Docker): **[INSTALL.md](INSTALL.md)**
+- Docker alternative, for anyone who has trouble or prefers it: **[INSTALL-DOCKER.md](INSTALL-DOCKER.md)**
+- Running the workshop? Per-block commands, expected output and common failures: **[FACILITATOR.md](FACILITATOR.md)**
 
-## ⚠️ Disclaimer: jouw data, jouw beleid
+## ⚠️ Disclaimer: your data, your policy
 
-- Dit lab draait volledig **lokaal op je eigen laptop**, met fictieve sample-data.
-- **AetherLink (en Ryan Lisse) ontvangt, verzamelt of bewaart géén data van deelnemers of van hun organisatie**: geen prompts, code, logs, credentials, diagnoses of telemetrie. Er is geen server van ons waar iets naartoe gaat.
-- Claude Code gebruikt **jouw eigen login** (je eigen Claude-account of API-key, of de Vertex-omgeving van je eigen organisatie). Wat daar gebeurt, valt onder jouw afspraken met die aanbieder.
-- Haal je externe data, externe skills of tools op (bijvoorbeeld het volledige skills pack, of `archify`, dat externe code ophaalt), dan doe je dat **onder het beleid van je eigen organisatie en op eigen verantwoordelijkheid**. AetherLink is niet verantwoordelijk voor de inhoud, de werking of het gebruik van externe bronnen, tools of data.
-- Twijfel je? Vraag het eerst aan je security- of IT-team.
+- This lab runs fully **locally on your own laptop**, with fictional sample data.
+- **AetherLink (and Ryan Lisse) receives, collects or stores no data from participants or their organisation**: no prompts, code, logs, credentials, diagnoses or telemetry. There is no server of ours anything goes to.
+- Claude Code uses **your own login** (your own Claude account or API key, or your own organisation's Vertex environment). What happens there falls under your agreements with that provider.
+- If you fetch external data, external skills or tools (for example the full skills pack, or `archify`, which downloads external code), you do so **under your own organisation's policy and at your own risk**. AetherLink is not responsible for the content, working or use of external sources, tools or data.
+- In doubt? Ask your security or IT team first.
 
-## Snelstart
+## Quick start
 
-Het lab zelf (tests, evals, hooks, MCP-server, progress-hook, CI) heeft **geen model en geen login** nodig.
+The lab itself (tests, evals, hooks, MCP server, progress hook, CI) needs **no model and no login**.
 
-### Standaard: zonder Docker (Windows, macOS, Linux)
+### Standard: no Docker (Windows, macOS, Linux)
 
-Nodig: Git, Node.js LTS (22 of nieuwer) en Claude Code ([INSTALL.md](INSTALL.md)).
+Needed: Git, Node.js LTS (22 or newer) and Claude Code ([INSTALL.md](INSTALL.md)).
 
 ```
 git clone https://github.com/RyanLisse/aetherlink-sre-agent-lab.git
 cd aetherlink-sre-agent-lab
 npm ci
-npm test               # verwacht: "pass 13" en "fail 0"
-npm run test:hooks     # verwacht: drie keer "fail=0"
-npm run eval           # verwacht: 6 regels die met "ok" beginnen
-claude                 # trust-vraag: Yes · MCP-server sre: goedkeuren · /status · /mcp
+npm test               # expect: "pass 17" and "fail 0"
+npm run test:hooks     # expect: three times "fail=0"
+npm run eval           # expect: 6 lines starting with "ok"
+claude                 # trust question: Yes · MCP server sre: approve · /status · /mcp
 ```
 
-Alle hooks en de MCP-server starten met gewoon `node` (geen bash, geen `npx`), dus ze werken hetzelfde in PowerShell, Git Bash, zsh en bash.
+All hooks and the MCP server start with plain `node` (no bash, no `npx`), so they work the same in PowerShell, Git Bash, zsh and bash.
 
-### Alternatief: Docker
+### Alternative: Docker
 
 ```
 docker compose build
-docker compose up lab                                          # tests, zonder netwerk: "pass 13", "fail 0"
-docker compose -f compose.yaml -f compose.agent.yaml run --rm agent   # Claude Code in de container, eigen login
+docker compose up lab                                          # tests, no network: "pass 17", "fail 0"
+docker compose -f compose.yaml -f compose.agent.yaml run --rm agent   # Claude Code in the container, your own login
 ```
 
-Details, Dev Containers en de optionele Vertex-route: [INSTALL-DOCKER.md](INSTALL-DOCKER.md).
+Details, Dev Containers and the optional Vertex route: [INSTALL-DOCKER.md](INSTALL-DOCKER.md).
 
-### Optioneel: via Vertex (bijvoorbeeld bij Worldline)
+### Optional: via Vertex (for example at Worldline)
 
-Alleen als je organisatie Claude via Google Vertex AI aanbiedt: zet `CLAUDE_CODE_USE_VERTEX=1`, `ANTHROPIC_VERTEX_PROJECT_ID` en `CLOUD_ML_REGION` (waarden van je eigen IT) en log in met `gcloud auth application-default login`. Zie [INSTALL.md](INSTALL.md#optioneel-bij-worldline--via-vertex) en, in Docker, `compose.vertex.yaml`. Zonder die variabelen speelt Vertex geen rol.
+Only if your organisation offers Claude via Google Vertex AI: set `CLAUDE_CODE_USE_VERTEX=1`, `ANTHROPIC_VERTEX_PROJECT_ID` and `CLOUD_ML_REGION` (values from your own IT) and log in with `gcloud auth application-default login`. See [INSTALL.md](INSTALL.md#optional-at-worldline--via-vertex) and, in Docker, `compose.vertex.yaml`. Without those variables Vertex plays no role.
 
-## Inhalen: step-tags
+## Contents: step tags
 
-`main` is het startpunt (templates). Loop je achter, of wil je een voorbeeld zien, dan staat per blok een uitgewerkte versie klaar als tag `step-N` (en branch `steps/N-…`):
+`main` is the starting point (templates). If you fall behind, or want to see an example, each block has a worked-out version ready as tag `step-N` (and branch `steps/N-…`):
 
-| Tag | Blok | Wat er bij komt (voorbeeld) |
+| Tag | Block | What it adds (example) |
 |---|---|---|
-| `step-1` | Plan | ingevulde `intent.md` |
-| `step-2` | Design | ingevulde `docs/spec.md` |
-| `step-3` | Build 1 | eigen guard-regel + test |
-| `step-4` | Build 2 | `docs/plan.md` + diagnose inc-001 (PASS) |
-| `step-5` | Test | `/verify-this`-verdict in `docs/verify/` |
-| `step-6` | Deploy (gate) | config-fix, benoemde goedkeuring (`facilitator-example`), PR/MR-beschrijving |
-| `step-7` | Maintain | nieuwe eval-case (inc-003, ontwerp) |
+| `step-1` | Plan | filled-in `intent.md` |
+| `step-2` | Design | filled-in `docs/spec.md` |
+| `step-3` | Build 1 | your own guard rule + test |
+| `step-4` | Build 2 | `docs/plan.md` + diagnosis inc-001 (PASS) |
+| `step-5` | Test | `/verify-this` verdict in `docs/verify/` |
+| `step-6` | Deploy (gate) | config fix, named approval (`facilitator-example`), PR/MR description |
+| `step-7` | Maintain | new eval case (inc-003, design) |
 | `step-8` | Hackathon | `HANDOFF.md` |
 
-Bekijken zonder je eigen werk kwijt te raken: `git diff main step-4`, of in een aparte map: `git worktree add ../lab-step-4 step-4`. Let op: de stappen STEP-0 en STEP-4 in `PROGRESS.md` krijgen pas een entry als de hook in jouw eigen sessie heeft gevuurd (bewijs in `approvals/audit.jsonl`, dat niet in git staat). De step-tags zelf bevatten nog de oudere `progress.md`; `main` heeft het nieuwe `PROGRESS.md`.
+Look without losing your own work: `git diff main step-4`, or in a separate folder: `git worktree add ../lab-step-4 step-4`. Note: steps STEP-0 and STEP-4 in `PROGRESS.md` only get an entry once the hook has fired in your own session (evidence in `approvals/audit.jsonl`, which is not in git). The step tags themselves still contain the older `progress.md`; `main` has the new `PROGRESS.md`.
 
-## Commando's
+## Commands
 
-| Wat | Commando (Docker-route: zet er `docker compose run --rm lab` voor) |
+| What | Command (Docker route: prefix with `docker compose run --rm lab`) |
 |---|---|
-| MCP + evals + skill-scanner testen | `npm test` |
-| Guard- en progress-hook testen | `npm run test:hooks` |
-| Alle eval-fixtures (goed = PASS, slecht = REJECTED) | `npm run eval` |
-| Eén diagnose controleren | `npm run eval -- docs/diagnoses/inc-001.json` |
-| Goedkeuren (**alleen een mens**, in een eigen terminal) | `npm run approve -- <jouw-naam> fix/<branch> "<reden>"` |
-| Gate-check zoals in CI | `npm run check:approval` |
-| Een skill van buiten scannen | `npm run skill:scan -- <map>` |
-| Voortgang bekijken (schrijft niets) | `npm run progress -- --status` |
-| `PROGRESS.md` handmatig bijwerken | `npm run progress` |
+| Test MCP + evals + skill scanner | `npm test` |
+| Test guard and progress hooks | `npm run test:hooks` |
+| All eval fixtures (good = PASS, bad = REJECTED) | `npm run eval` |
+| Check one diagnosis | `npm run eval -- docs/diagnoses/inc-001.json` |
+| Approve (**a human only**, in their own terminal) | `npm run approve -- <your-name> fix/<branch> "<reason>"` |
+| Gate check as in CI | `npm run check:approval` |
+| Scan an outside skill | `npm run skill:scan -- <folder>` |
+| View progress (writes nothing) | `npm run progress -- --status` |
+| Update `PROGRESS.md` manually | `npm run progress` |
 
-`npm run progress -- --status` toont de huidige stand en schrijft niets. `PROGRESS.md` is de geschiedenis: de hook voegt per stap een entry toe met een ISO 8601-timestamp (bijv. `2026-10-11T11:20:00+02:00`); een eigen, geverifieerde entry voeg je zelf onderaan toe, met dezelfde timestamp-vorm.
+`npm run progress -- --status` shows the current state and writes nothing. `PROGRESS.md` is the history: the hook appends one entry per step with an ISO 8601 timestamp (e.g. `2026-10-11T11:20:00+02:00`); your own verified entry goes at the bottom, with the same timestamp shape.
 
-## Incidenten
+## Incidents
 
 | ID | Scenario | Status |
 |---|---|---|
-| `inc-001-db-pool` | DB-pool uitgeput na een config-wijziging (deploy d-0142) | gebouwd |
-| `inc-002-bad-deploy` | Feature flag in deploy d-0151 breekt alleen EUR-checkouts; cron-waarschuwing als afleider | gebouwd |
-| `inc-004-upstream-timeout` | psp-sandbox traag + retry-storm; een docs-only deploy vlak ervoor is de afleider | gebouwd |
-| inc-003 · inc-005 | Geheugenlek · certificaat verlopen | stretch, zie `docs/stretch-incidents.md` |
+| `inc-001-db-pool` | DB pool exhausted after a config change (deploy d-0142) | built |
+| `inc-002-bad-deploy` | Feature flag in deploy d-0151 breaks only EUR checkouts; a cron warning is the distractor | built |
+| `inc-004-upstream-timeout` | psp-sandbox slow + retry storm; a docs-only deploy just before is the distractor | built |
+| inc-003 · inc-005 | Memory leak · certificate expired | stretch, see `docs/stretch-incidents.md` |
 
-Elk gebouwd incident heeft `alert.json`, `logs.jsonl` (stabiele id's zoals `L0021`), `metrics.csv`, `deploys.json`, een runbook in `runbooks/`, een eval-case in `evals/cases/` en een goede én een slechte fixture. inc-002 en inc-004 komen uit `npm run generate` (vaste seed, dus altijd dezelfde data).
+Every built incident has `alert.json`, `logs.jsonl` (stable ids like `L0021`), `metrics.csv`, `deploys.json`, a runbook in `runbooks/`, an eval case in `evals/cases/` and a good **and** a bad fixture. inc-002 and inc-004 come from `npm run generate` (fixed seed, so always the same data).
 
 ## Control layer
 
-- **`.claude/settings.json`**: allow/ask/deny, `disableBypassPermissionsMode`, `disableSkillShellExecution`, alleen MCP-server `sre`.
-- **`.claude/hooks/guard.mjs`** (PreToolUse, Node, geen bash/jq nodig): blokkeert netwerk, secrets en `approvals/`; schrijven mag alleen in `docs/diagnoses/`, `docs/verify/`, `docs/show-me/` en `docs/pr/`; SDLC-artefacten (intent, spec, plan, eval-cases) en `app/` op een `fix/*`-branch alleen na bevestiging; push, PR (`gh`) en MR (`glab`) alleen na een benoemde goedkeuring; mergen en PR/MR goedkeuren nooit door de agent. Elke beslissing staat in `approvals/audit.jsonl`.
-- **`.claude/hooks/progress.mjs`** (SessionStart, PostToolUse, Stop): voegt aan `PROGRESS.md` (het build-log volgens de template uit de skills-pack) een entry per stap toe zodra er echt bewijs is (`STEP-0` … `STEP-9`). Append-only: bestaande tekst wordt nooit aangepast, de velden *Why it mattered*, *How, and what was rejected* en *Deliberately not done* vul je zelf in. Schrijft alleen `PROGRESS.md`, lokaal, zonder netwerk.
-- Regex-regels zijn best-effort. Sterkere isolatie: de Docker-route (`lab` zonder netwerk), de [sandbox van Claude Code](https://code.claude.com/docs/en/sandboxing) of managed settings van je IT.
+- **`.claude/settings.json`**: allow/ask/deny, `disableBypassPermissionsMode`, `disableSkillShellExecution`, only MCP server `sre`.
+- **`.claude/hooks/guard.mjs`** (PreToolUse, Node, no bash/jq needed): blocks network, secrets and `approvals/`; writes only allowed in `docs/diagnoses/`, `docs/verify/`, `docs/show-me/` and `docs/pr/`; SDLC artefacts (intent, spec, plan, eval cases) and `app/` on a `fix/*` branch only after confirmation; push, PR (`gh`) and MR (`glab`) only after a named approval; merge and PR/MR approve never by the agent. Every decision goes to `approvals/audit.jsonl`.
+- **`.claude/hooks/progress.mjs`** (SessionStart, PostToolUse, Stop): appends an entry per step to `PROGRESS.md` (the build log from the skills-pack template) as soon as there is real evidence (`STEP-0` … `STEP-9`). Append-only: existing text is never changed; you fill in the *Why it mattered*, *How, and what was rejected* and *Deliberately not done* fields yourself. Writes only `PROGRESS.md`, locally, without network.
+- Regex rules are best-effort. Stronger isolation: the Docker route (`lab` without network), the [Claude Code sandbox](https://code.claude.com/docs/en/sandboxing) or your IT's managed settings.
 
-## De gate: GitHub én GitLab
+### Test-first exercises (red → green)
 
-1. Claude werkt op `fix/<naam>`, elke edit in `app/` vraagt jouw bevestiging, de commit ook.
-2. Claude probeert te pushen → **deny** (geen goedkeuring).
-3. Een benoemde mens (niet de auteur) draait in een **eigen terminal** (niet via Claude): `npm run approve -- <naam> fix/<naam> "<reden>"` (Docker-route: `docker compose run --rm lab npm run approve -- …`).
-4. De mens doet de laatste stap zelf, met de eigen git-login (de hook laat Claude niet pushen zonder goedkeuring, en in de Docker-route zitten er bewust geen git-credentials in de container):
+Two assignments are deliberately test-first. The test must really go red first, or the exercise proves nothing:
+
+- **Schema (Spec block):** `test/schema.test.ts` pins the contract in `evals/schema.ts`. Exercise, word for word: *"Add a test in `test/schema.test.ts` that expects a required `blast_radius` string field. Run `npm test`: red. Add `blast_radius` to `evals/schema.ts` and to the good fixtures. Run `npm test`: green."* See [FACILITATOR.md](FACILITATOR.md) for the reference solution.
+- **Deny rule (Controls block):** pick a command that is **not** covered yet, so the new rule goes red first. Good examples: `rm -rf`, `git reset --hard`, `terraform destroy`. Do **not** use `kubectl delete` as the example: `kubectl` is already in `GATED` in `.claude/hooks/guard.mjs`, so a test-first rule can never go red.
+- **By design, Claude cannot do these edits for you.** `.claude/settings.json` denies `Edit(./.claude/**)` and the guard limits writes, so `guard.mjs` and `test/hooks.test.mjs` are off limits for the agent. The participant edits `guard.mjs` and the hook test themselves; Claude only suggests the change. SDLC artefacts the team writes *with* Claude (schema, spec, eval cases, `test/*.test.ts`) stay reachable via the `ask` permission.
+
+## The gate: GitHub and GitLab
+
+1. Claude works on `fix/<name>`; every edit in `app/` asks your confirmation, as does the commit.
+2. Claude tries to push → **deny** (no approval).
+3. A named human (not the author) runs in **their own terminal** (not via Claude): `npm run approve -- <name> fix/<name> "<reason>"` (Docker route: `docker compose run --rm lab npm run approve -- …`).
+4. The human does the last step themselves, with their own git login (the hook does not let Claude push without an approval, and the Docker route deliberately has no git credentials in the container):
 
 ```
 git add -f approvals/approvals.jsonl approvals/audit.jsonl
-git commit -m "approval: fix/<naam> by <naam>"
-git push -u origin fix/<naam>
+git commit -m "approval: fix/<name> by <name>"
+git push -u origin fix/<name>
 gh pr create --fill          # GitHub: pull request (PR)
 glab mr create --fill        # GitLab: merge request (MR)
 ```
 
-Heeft Claude met `/visual-pr` een beschrijving in `docs/pr/<branch>.md` gezet, gebruik die dan: `gh pr create --title "<titel>" --body-file docs/pr/<branch>.md` of `glab mr create --title "<titel>" --description "$(cat docs/pr/<branch>.md)"` (PowerShell: `--description (Get-Content -Raw docs/pr/<branch>.md)`).
+If Claude put a description in `docs/pr/<branch>.md` with `/visual-pr`, use it: `gh pr create --title "<title>" --body-file docs/pr/<branch>.md` or `glab mr create --title "<title>" --description "$(cat docs/pr/<branch>.md)"` (PowerShell: `--description (Get-Content -Raw docs/pr/<branch>.md)`).
 
-5. CI (`.github/workflows/ci.yml` of `.gitlab-ci.yml`) draait offline `npm test`, `test:hooks`, `eval` en `check:approval`. Mergen doet een mens, via branch protection (GitHub) of MR-approval rules (GitLab).
+5. CI (`.github/workflows/ci.yml` or `.gitlab-ci.yml`) runs `npm test`, `test:hooks`, `eval` and `check:approval` offline. A human merges, via branch protection (GitHub) or MR approval rules (GitLab).
+
+## Progress evidence: what the hook looks for
+
+`npm run progress -- --status` shows `STEP-0` … `STEP-9`. Most steps detect themselves; two need a file you create on purpose:
+
+- **STEP-3 (Design: decision recorded):** create `docs/decisions/D01-<topic>.md`. A 5-line template is in [docs/decisions/README.md](docs/decisions/README.md). A document under `docs/rpi/` (from `/rpi`) also counts.
+- **STEP-6 (Test: eval PASS + verify):** run `npm run eval -- docs/diagnoses/<file>` until PASS **and** write a `/verify-this` verdict to `docs/verify/<claim>/verdict.md`. Both must exist.
 
 ## Skills
 
-In `.claude/skills/` zit een **gekeurde subset**, aangepast voor dit lab: geen netwerk, geen `!`-shellregels, en geen skill pusht, merget of opent zelf een PR/MR (dat doet de mens na de gate).
+`.claude/skills/` contains a **vetted subset**, adapted for this lab: no network, no `!` shell lines, and no skill pushes, merges or opens a PR/MR itself (the human does that after the gate).
 
-| Skill | Waarvoor (moment in de workshop) | Herkomst | Lab-aanpassing |
+| Skill | What for (moment in the workshop) | Origin | Lab adaptation |
 |---|---|---|---|
-| `incident-triage` | SRE-beleid voor elke diagnose | dit lab | n.v.t. |
-| `design-control-loop` | Plan: ontwerp-interview, vult `intent.md` (11:25) | HumanLayer | alleen fase A–B; geen CI-agent, API-keys of bypass |
-| `grilling` | Plan: fallback voor het interview | mattpocock/skills | geen |
-| `rpi` | Optioneel/hackathon: research → plan → implement | HumanLayer | artefacten in `docs/rpi/`, geen web-research-agent |
-| `show-me` | Diagnose uitleggen als HTML (13:52) | HumanLayer | `docs/show-me/`, self-contained, geen `open` |
-| `eli5` | Fallback voor `show-me`: simpel uitleggen | skills pack | geen |
-| `verify-this` | Test: claim bewijzen (14:55) | skills pack (Cursor team-kit) | schrijft naar `docs/verify/` |
-| `review-and-ship` | Gate: review tot aan de menselijke goedkeuring (15:15) | skills pack (Cursor team-kit) | kent `glab`, stopt bij de gate |
-| `visual-pr` | Gate: PR/MR-beschrijving met diagram (15:18) | HumanLayer | schrijft alleen `docs/pr/<branch>.md` |
-| `new-branch-and-pr` | Branch + commit voorbereiden | skills pack (Cursor team-kit) | stopt bij de commit; mens doet approve, push, `gh pr`/`glab mr` |
-| `make-pr-easy-to-review` | Reviewgids voor een grote PR/MR | skills pack (Cursor team-kit) | schrijft `docs/pr/`; opschoonplan alleen voor de mens |
-| `get-pr-comments` | Review-comments verwerken | skills pack (Cursor team-kit) | leest `docs/pr/comments.md` die jij exporteert |
-| `fix-ci` | Rode CI lokaal reproduceren en fixen | skills pack (Cursor team-kit) | lokale CI-commando's; logs plak jij in `docs/ci/`; geen push |
-| `deslop` | AI-ruis uit je diff halen | skills pack (Cursor team-kit) | diff tegen lokale `main`, geen `git fetch` |
-| `improve-claude-md` | Maintain: `CLAUDE.md` aanscherpen (15:30) | HumanLayer | geen; wijziging aan `CLAUDE.md` vraagt altijd jouw akkoord |
-| `cli-for-agents` | Hackathon: CLI's bouwen die agents goed kunnen gebruiken | skills pack (Cursor) | geen |
-| `handoff` | Hackathon: `HANDOFF.md` schrijven (15:40) | skills pack | geen |
+| `incident-triage` | SRE policy for every diagnosis | this lab | n/a |
+| `design-control-loop` | Plan: design interview, fills `intent.md` (11:25) | HumanLayer | phases A–B only; no CI agent, API keys or bypass |
+| `grilling` | Plan: fallback for the interview | mattpocock/skills | none |
+| `rpi` | Optional/hackathon: research → plan → implement | HumanLayer | artefacts in `docs/rpi/`, no web-research agent |
+| `show-me` | Explain a diagnosis as HTML (13:52) | HumanLayer | `docs/show-me/`, self-contained, no `open` |
+| `eli5` | Fallback for `show-me`: explain simply | skills pack | none |
+| `verify-this` | Test: prove a claim (14:55) | skills pack (Cursor team-kit) | writes to `docs/verify/` |
+| `review-and-ship` | Gate: review up to the human approval (15:15) | skills pack (Cursor team-kit) | knows `glab`, stops at the gate |
+| `visual-pr` | Gate: PR/MR description with diagram (15:18) | HumanLayer | writes only `docs/pr/<branch>.md` |
+| `new-branch-and-pr` | Prepare branch + commit | skills pack (Cursor team-kit) | stops at the commit; the human approves, pushes, `gh pr`/`glab mr` |
+| `make-pr-easy-to-review` | Review guide for a large PR/MR | skills pack (Cursor team-kit) | writes `docs/pr/`; cleanup plan for the human only |
+| `get-pr-comments` | Process review comments | skills pack (Cursor team-kit) | reads `docs/pr/comments.md` that you export |
+| `fix-ci` | Reproduce and fix a red CI locally | skills pack (Cursor team-kit) | local CI commands; you paste logs in `docs/ci/`; no push |
+| `deslop` | Remove AI noise from your diff | skills pack (Cursor team-kit) | diff against local `main`, no `git fetch` |
+| `improve-claude-md` | Maintain: sharpen `CLAUDE.md` (15:30) | HumanLayer | none; a change to `CLAUDE.md` always asks your consent |
+| `cli-for-agents` | Hackathon: build CLIs agents can use well | skills pack (Cursor) | none |
+| `handoff` | Hackathon: write `HANDOFF.md` (15:40) | skills pack | none |
 
-Bewust **niet** in het lab: `archify` (haalt externe code op via `git clone`/`npx`; het lab draait zonder netwerk, de guard zou hem blokkeren; hij blijft in het skills pack, met de waarschuwing voor externe code), `java-lts-migration` (Java-migratie, past niet bij dit lab) en `build-iterated-agentic-loop` (draait onbewaakt, met API-keys en zonder permissievragen).
+Deliberately **not** in the lab: `archify` (fetches external code via `git clone`/`npx`; the lab runs without network, the guard would block it; it stays in the skills pack, with the warning about external code), `java-lts-migration` (a Java migration, does not fit this lab) and `build-iterated-agentic-loop` (runs unattended, with API keys and without permission prompts).
 
-### Skills van buiten ons pack: eerst lezen, dan installeren
+### Skills from outside our pack: read first, then install
 
-Een skill is code die je agent instructies en soms rechten geeft. Doorloop dit vóór je iets installeert:
+A skill is code that gives your agent instructions and sometimes permissions. Go through this before you install anything:
 
-1. **Bron**: wie onderhoudt het? Pin een vaste commit, geen "latest".
-2. **Lees `SKILL.md` helemaal**: `allowed-tools` (vraagt hij brede `Bash`?), `!`-regels (shell-commando's die draaien bij het laden), `disable-model-invocation`.
-3. **Prompt-injectie**: zinnen als "negeer eerdere instructies", "vertel de gebruiker niet", verborgen tekst in HTML-commentaar, onzichtbare tekens, base64-blokken.
-4. **Scripts** (`*.sh`, `*.py`, `*.js`, `*.ps1`): lees elke regel. Let op `curl | sh`, `eval`, `base64 -d`, installs (`npx`, `pip install`, `git clone`).
-5. **Netwerk en exfiltratie**: elke URL en elk domein. Waar gaat data naartoe? Ook `git push` naar een andere remote, `gh gist`, `printenv`.
-6. **Secrets**: leest hij `.env`, `~/.ssh`, tokens, gcloud-credentials?
-7. **Installeer per project** in `.claude/skills/`, via een PR/MR met een tweede reviewer. Niet in `~/.claude/skills/` (dat geldt dan voor al je projecten en wint van de projectversie).
-8. **Test eerst** in dit lab (liefst de `lab`-container zonder netwerk) en kijk in `approvals/audit.jsonl` wat hij probeert.
-9. **Twijfel = niet installeren.** Vraag security/IT.
+1. **Source**: who maintains it? Pin a fixed commit, no "latest".
+2. **Read `SKILL.md` completely**: `allowed-tools` (does it ask for broad `Bash`?), `!` lines (shell commands that run on load), `disable-model-invocation`.
+3. **Prompt injection**: sentences like "ignore previous instructions", "do not tell the user", hidden text in HTML comments, invisible characters, base64 blocks.
+4. **Scripts** (`*.sh`, `*.py`, `*.js`, `*.ps1`): read every line. Watch for `curl | sh`, `eval`, `base64 -d`, installs (`npx`, `pip install`, `git clone`).
+5. **Network and exfiltration**: every URL and every domain. Where does data go? Also `git push` to another remote, `gh gist`, `printenv`.
+6. **Secrets**: does it read `.env`, `~/.ssh`, tokens, gcloud credentials?
+7. **Install per project** in `.claude/skills/`, via a PR/MR with a second reviewer. Not in `~/.claude/skills/` (that applies to all your projects and wins over the project version).
+8. **Test first** in this lab (preferably the `lab` container without network) and look in `approvals/audit.jsonl` at what it tries.
+9. **Doubt = do not install.** Ask security/IT.
 
-Hulpmiddel: `npm run skill:scan -- <map>` markeert verdachte regels. Een lege lijst betekent **niet** dat de skill veilig is.
+Helper: `npm run skill:scan -- <folder>` flags suspicious lines. An empty list does **not** mean the skill is safe.
 
-## Problemen oplossen
+## Troubleshooting
 
-Zie "Werkt het niet?" in [INSTALL.md](INSTALL.md) en [INSTALL-DOCKER.md](INSTALL-DOCKER.md).
+See "Not working?" in [INSTALL.md](INSTALL.md) and [INSTALL-DOCKER.md](INSTALL-DOCKER.md).
 
-## Licentie
+## Licence
 
-MIT, zie [LICENSE](LICENSE). De skills `design-control-loop`, `show-me`, `visual-pr`, `rpi` en `improve-claude-md` in `.claude/skills/` komen (deels aangepast) van [humanlayer/skills](https://github.com/humanlayer/skills) (MIT, Copyright (c) 2026 HumanLayer); `grilling` van [mattpocock/skills](https://github.com/mattpocock/skills) (MIT); de overige uit [claude-code-skills-pack](https://github.com/RyanLisse/claude-code-skills-pack) (MIT, deels gebaseerd op Cursor team-kit, MIT). Zie [NOTICE.md](NOTICE.md).
+MIT, see [LICENSE](LICENSE). The skills `design-control-loop`, `show-me`, `visual-pr`, `rpi` and `improve-claude-md` in `.claude/skills/` come (partly adapted) from [humanlayer/skills](https://github.com/humanlayer/skills) (MIT, Copyright (c) 2026 HumanLayer); `grilling` from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT); the rest from [claude-code-skills-pack](https://github.com/RyanLisse/claude-code-skills-pack) (MIT, partly based on Cursor team-kit, MIT). See [NOTICE.md](NOTICE.md).
