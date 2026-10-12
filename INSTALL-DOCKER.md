@@ -1,36 +1,36 @@
-# Alternatieve route: het lab in Docker
+# Alternative route: the lab in Docker
 
-Voor wie problemen heeft met de standaardroute ([INSTALL.md](INSTALL.md)), of liever alles in een container draait. De container is op Windows, macOS en Linux identiek: Node, de hooks, de MCP-server en (optioneel) Claude Code zitten erin. Je hebt dan **geen Node** op je laptop nodig.
+For anyone who has trouble with the standard route ([INSTALL.md](INSTALL.md)), or prefers to run everything in a container. The container is identical on Windows, macOS and Linux: Node, the hooks, the MCP server and (optionally) Claude Code are inside. You then need **no Node** on your laptop.
 
-Zelfde disclaimer als in [README.md](README.md): AetherLink ontvangt of bewaart geen data van jou of je organisatie; je gebruikt alles onder het beleid van je eigen organisatie.
+Same disclaimer as in [README.md](README.md): AetherLink does not receive or store data from you or your organisation; you use everything under your own organisation's policy.
 
-## Stap 1 · Docker installeren
+## Step 1 · Install Docker
 
-> **Licentie:** Docker Desktop is gratis voor kleine organisaties, maar **betaald voor organisaties met 250 of meer medewerkers of meer dan $10 miljoen omzet** (https://docs.docker.com/subscription/desktop-license/). Vraag IT wat je organisatie voorschrijft.
+> **Licence:** Docker Desktop is free for small organisations, but **paid for organisations with 250 or more employees or more than $10 million in revenue** (https://docs.docker.com/subscription/desktop-license/). Ask IT what your organisation requires.
 
 **Windows**
-1. Docker Desktop heeft WSL 2 nodig: https://learn.microsoft.com/en-us/windows/wsl/install (kort: PowerShell **als administrator** → `wsl --install` → herstarten).
-2. Docker Desktop: https://docs.docker.com/desktop/setup/install/windows-install/ → **Docker Desktop for Windows** → laat **"Use WSL 2 instead of Hyper-V"** aangevinkt → **OK** → **Close** → herstart als daarom gevraagd wordt.
-3. Start **Docker Desktop** en wacht op **Engine running**. Meer over WSL in Docker: https://docs.docker.com/desktop/features/wsl/
+1. Docker Desktop needs WSL 2: https://learn.microsoft.com/en-us/windows/wsl/install (in short: PowerShell **as administrator** → `wsl --install` → restart).
+2. Docker Desktop: https://docs.docker.com/desktop/setup/install/windows-install/ → **Docker Desktop for Windows** → leave **"Use WSL 2 instead of Hyper-V"** ticked → **OK** → **Close** → restart if asked.
+3. Start **Docker Desktop** and wait for **Engine running**. More about WSL in Docker: https://docs.docker.com/desktop/features/wsl/
 
 **macOS**
-1.  → **Over deze Mac**: "Apple M…" of "Intel".
-2. https://docs.docker.com/desktop/setup/install/mac-install/ → open `Docker.dmg` → sleep **Docker** naar **Programma's** → open Docker → **Accept** → aanbevolen instellingen.
+1.  → **About This Mac**: "Apple M…" or "Intel".
+2. https://docs.docker.com/desktop/setup/install/mac-install/ → open `Docker.dmg` → drag **Docker** to **Applications** → open Docker → **Accept** → recommended settings.
 
 **Linux**
 - Docker Desktop: https://docs.docker.com/desktop/setup/install/linux/
-- Of Docker Engine: https://docs.docker.com/engine/install/ en daarna https://docs.docker.com/engine/install/linux-postinstall/ (werken zonder `sudo`). Compose: https://docs.docker.com/compose/install/
+- Or Docker Engine: https://docs.docker.com/engine/install/ and then https://docs.docker.com/engine/install/linux-postinstall/ (work without `sudo`). Compose: https://docs.docker.com/compose/install/
 
-**Werkt het?**
+**Does it work?**
 ```
 docker --version
 docker compose version
 ```
-Verwacht: `Docker version 2…` en `Docker Compose version v2…`.
+Expect: `Docker version 2…` and `Docker Compose version v2…`.
 
-Git heb je ook nodig: zie stap 2 van [INSTALL.md](INSTALL.md).
+You also need Git: see step 2 of [INSTALL.md](INSTALL.md).
 
-## Stap 2 · Het lab ophalen en testen (zonder model, zonder netwerk)
+## Step 2 · Get the lab and test it (no model, no network)
 
 ```
 git clone https://github.com/RyanLisse/aetherlink-sre-agent-lab.git
@@ -38,58 +38,58 @@ cd aetherlink-sre-agent-lab
 docker compose build
 docker compose up lab
 ```
-Verwacht aan het eind: `pass 13`, `fail 0` (met `#` of `ℹ` ervoor, afhankelijk van de Node-versie) en `lab-1 exited with code 0`. De `lab`-container draait **zonder netwerk**.
+Expect at the end: `pass 17`, `fail 0` (with `#` or `ℹ` in front, depending on the Node version) and `lab-1 exited with code 0`. The `lab` container runs **without a network**.
 
-Hook-tests en evals:
+Hook tests and evals:
 ```
 docker compose run --rm lab npm run test:hooks
 docker compose run --rm lab npm run eval
 ```
 
-## Stap 3 · Claude Code in de container (met je eigen login)
+## Step 3 · Claude Code in the container (with your own login)
 
 ```
 docker compose -f compose.yaml -f compose.agent.yaml run --rm agent
 ```
-- De eerste keer: log in met **je eigen** Claude-account (Claude Code laat de stappen zien; of typ `/login`). De login blijft bewaard in het Docker-volume `claude-config`, niet in de repo.
-- Of gebruik een API-key van je eigen account: zet `ANTHROPIC_API_KEY` in je terminal vóór het commando (macOS/Linux `export ANTHROPIC_API_KEY=…`, Windows `$env:ANTHROPIC_API_KEY = "…"`). Compose geeft hem alleen door; hij komt niet in het image of de repo.
-- Daarna zoals in stap 8 van [INSTALL.md](INSTALL.md): trust → **Yes**, MCP `sre` goedkeuren, `/status`, `/mcp`, `/`.
-- Je git-login zit bewust **niet** in de container. Pushen en een PR/MR openen doe je op je laptop zelf (zie README, "Menselijke gate").
+- The first time: log in with **your own** Claude account (Claude Code shows the steps; or type `/login`). The login is kept in the Docker volume `claude-config`, not in the repo.
+- Or use an API key from your own account: set `ANTHROPIC_API_KEY` in your terminal before the command (macOS/Linux `export ANTHROPIC_API_KEY=…`, Windows `$env:ANTHROPIC_API_KEY = "…"`). Compose only passes it through; it does not end up in the image or the repo.
+- Then as in step 8 of [INSTALL.md](INSTALL.md): trust → **Yes**, approve MCP `sre`, `/status`, `/mcp`, `/`.
+- Your git login is deliberately **not** in the container. You push and open a PR/MR on your laptop itself (see README, "Human gate").
 
-**VS Code:** installeer de extensie **Dev Containers** (https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers, uitleg: https://code.visualstudio.com/docs/devcontainers/containers) en kies **Reopen in Container**. Officiële uitleg over Claude Code in een container: https://code.claude.com/docs/en/devcontainer
+**VS Code:** install the **Dev Containers** extension (https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers, explanation: https://code.visualstudio.com/docs/devcontainers/containers) and choose **Reopen in Container**. Official docs on Claude Code in a container: https://code.claude.com/docs/en/devcontainer
 
-**Claude Code op je laptop, alleen de MCP in Docker** (kan ook): de server start dan met `docker compose --profile mcp run --rm -T mcp`. Zet dat commando in een eigen, niet-gecommit `.mcp.json`-variant; de standaard `.mcp.json` start de server met `node`.
+**Claude Code on your laptop, only the MCP in Docker** (also possible): the server then starts with `docker compose --profile mcp run --rm -T mcp`. Put that command in your own, uncommitted `.mcp.json` variant; the default `.mcp.json` starts the server with `node`.
 
-## Optioneel: Bij Worldline / via Vertex (in Docker)
+## Optional: At Worldline / via Vertex (in Docker)
 
-Alleen als je organisatie Claude via Google Vertex AI aanbiedt. Waarden van je eigen IT-team. Eerst op je laptop: `gcloud auth application-default login` (zie [INSTALL.md](INSTALL.md#optioneel-bij-worldline--via-vertex)).
+Only if your organisation offers Claude via Google Vertex AI. Values from your own IT team. First on your laptop: `gcloud auth application-default login` (see [INSTALL.md](INSTALL.md#optional-at-worldline--via-vertex)).
 
 macOS / Linux:
 ```
-export ANTHROPIC_VERTEX_PROJECT_ID=<GCP-project>
-export CLOUD_ML_REGION=<regio>
+export ANTHROPIC_VERTEX_PROJECT_ID=<GCP project>
+export CLOUD_ML_REGION=<region>
 export GCLOUD_ADC_FILE="$HOME/.config/gcloud/application_default_credentials.json"
 docker compose -f compose.yaml -f compose.agent.yaml -f compose.vertex.yaml run --rm agent
 ```
 Windows (PowerShell):
 ```
-$env:ANTHROPIC_VERTEX_PROJECT_ID = "<GCP-project>"
-$env:CLOUD_ML_REGION = "<regio>"
+$env:ANTHROPIC_VERTEX_PROJECT_ID = "<GCP project>"
+$env:CLOUD_ML_REGION = "<region>"
 $env:GCLOUD_ADC_FILE = "$env:APPDATA\gcloud\application_default_credentials.json"
 docker compose -f compose.yaml -f compose.agent.yaml -f compose.vertex.yaml run --rm agent
 ```
-Alleen het ADC-bestand gaat naar binnen, **read-only**. `/status` → verwacht `Google Vertex AI`. Zonder `compose.vertex.yaml` speelt Vertex geen enkele rol.
+Only the ADC file goes in, **read-only**. `/status` → expect `Google Vertex AI`. Without `compose.vertex.yaml`, Vertex plays no role at all.
 
-## Werkt het niet?
+## Not working?
 
-| Wat je ziet | Wat je doet |
+| What you see | What you do |
 |---|---|
-| `docker: command not found` / "wordt niet herkend" | Docker Desktop niet geïnstalleerd of niet gestart. Start het, wacht op "Engine running", open een **nieuwe** terminal. |
-| `Cannot connect to the Docker daemon` | Docker draait niet. Linux: `sudo systemctl start docker` + de post-install-stap. |
-| Windows: Docker Desktop klaagt over WSL | `wsl --update` (PowerShell als administrator), herstarten. |
-| `docker compose build` faalt met netwerk/proxy | Bedrijfsproxy: Docker Desktop → Settings → Resources → Proxies; vraag IT. https://docs.docker.com/desktop/troubleshoot-and-support/troubleshoot/ |
-| `compose.vertex.yaml needs ANTHROPIC_VERTEX_PROJECT_ID / GCLOUD_ADC_FILE` | Alleen bij de Vertex-route: variabelen zetten in **dit** terminalvenster. Geen Vertex? Laat `-f compose.vertex.yaml` weg. |
-| "bind source path does not exist" | `GCLOUD_ADC_FILE` wijst naar een niet-bestaand bestand: eerst `gcloud auth application-default login`. |
-| `# fail` groter dan 0 | Na `git pull`: `docker compose down -v` en `docker compose build`. |
-| Linux: "permission denied" bij schrijven | Je gebruikers-id is niet 1000. Tijdelijk: `sudo chown -R 1000:1000 .` in de lab-map. |
-| Windows: `^M` of "bad interpreter" | Opnieuw clonen; `.gitattributes` forceert LF. |
+| `docker: command not found` / "is not recognised" | Docker Desktop not installed or not started. Start it, wait for "Engine running", open a **new** terminal. |
+| `Cannot connect to the Docker daemon` | Docker is not running. Linux: `sudo systemctl start docker` + the post-install step. |
+| Windows: Docker Desktop complains about WSL | `wsl --update` (PowerShell as administrator), restart. |
+| `docker compose build` fails with network/proxy | Company proxy: Docker Desktop → Settings → Resources → Proxies; ask IT. https://docs.docker.com/desktop/troubleshoot-and-support/troubleshoot/ |
+| `compose.vertex.yaml needs ANTHROPIC_VERTEX_PROJECT_ID / GCLOUD_ADC_FILE` | Only on the Vertex route: set the variables in **this** terminal window. No Vertex? Leave out `-f compose.vertex.yaml`. |
+| "bind source path does not exist" | `GCLOUD_ADC_FILE` points to a file that does not exist: run `gcloud auth application-default login` first. |
+| `# fail` greater than 0 | After `git pull`: `docker compose down -v` and `docker compose build`. |
+| Linux: "permission denied" when writing | Your user id is not 1000. Temporary: `sudo chown -R 1000:1000 .` in the lab folder. |
+| Windows: `^M` or "bad interpreter" | Clone again; `.gitattributes` forces LF. |

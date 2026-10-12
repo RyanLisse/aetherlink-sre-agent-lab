@@ -3,7 +3,7 @@
 #   docker compose up lab                    (= npm test, then exits)
 #   docker compose run --rm lab npm run test:hooks
 #   docker compose run --rm lab npm run eval
-#   docker compose run --rm lab npm run approve -- <jouw-naam> fix/<branch> "<reden>"   (a HUMAN runs this)
+#   docker compose run --rm lab npm run approve -- <your-name> fix/<branch> "<reason>"   (a HUMAN runs this)
 # Optional: Claude Code in the container via compose.agent.yaml, and Vertex via compose.vertex.yaml (see INSTALL-DOCKER.md).
 name: sre-lab
 services:

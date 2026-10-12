@@ -12,7 +12,7 @@ import { join, resolve } from "node:path";
 const root = resolve(process.env.CLAUDE_PROJECT_DIR || process.cwd());
 const FILE = "PROGRESS.md";
 const BASE_CASES = 3; // inc-001, inc-002, inc-004 ship with the lab
-const TODO = (what) => `<vul zelf in: ${what}>`;
+const TODO = (what) => `<fill in: ${what}>`;
 
 const f = (p) => join(root, p);
 const read = (p) => { try { return readFileSync(f(p), "utf8"); } catch { return ""; } };
@@ -20,7 +20,7 @@ const ls = (p, re = /./) => { try { return readdirSync(f(p)).filter((n) => re.te
 const lsr = (p, re) => { const out = []; const walk = (d) => { for (const n of ls(d)) { const q = `${d}/${n}`; try { statSync(f(q)).isDirectory() ? walk(q) : re.test(n) && out.push(q); } catch {} } }; walk(p); return out.sort(); };
 const jsonl = (p) => read(p).split(/\r?\n/).filter(Boolean).flatMap((l) => { try { return [JSON.parse(l)]; } catch { return []; } });
 const mtime = (p) => { try { return statSync(f(p)).mtimeMs; } catch { return 0; } };
-const filled = (p, minLen = 200) => { const t = read(p); return t.length >= minLen && !/\bTODO\b|<team>|<naam>/.test(t); };
+const filled = (p, minLen = 200) => { const t = read(p); return t.length >= minLen && !/\bTODO\b|<team>|<name>/.test(t); };
 const pad = (n) => String(n).padStart(2, "0");
 // ISO 8601 local time with offset, e.g. 2026-10-11T21:56:00+02:00 (the build-log header format).
 export const isoLocal = (d = new Date()) => {
@@ -39,7 +39,7 @@ export function evidence() {
   const passing = diag.filter((d) => { const r = evals[`docs/diagnoses/${d}`]; return r?.pass && r.at_ms >= mtime(`docs/diagnoses/${d}`); });
   const cases = ls("evals/cases", /^inc-\d{3}\.json$/);
   const verdicts = ls("docs/verify").filter((d) => existsSync(f(`docs/verify/${d}/verdict.md`)));
-  const decisions = [...lsr("docs/decisions", /\.md$/), ...lsr("docs/rpi", /\.md$/)];
+  const decisions = [...lsr("docs/decisions", /\.md$/), ...lsr("docs/rpi", /\.md$/)].filter((d) => !/(^|\/)README\.md$/i.test(d));
   const intent = read("intent.md");
   const intentOk = filled("intent.md") && ["Problem", "outcome", "users", "Constraints", "Open questions"].every((h) => intent.toLowerCase().includes(h.toLowerCase()));
   const sdk = existsSync(f("node_modules/@modelcontextprotocol"));
@@ -61,7 +61,7 @@ export function evidence() {
     { key: "STEP-3", name: "Design: decision recorded", done: decisions.length > 0, title: "Recorded a design decision",
       shipped: `Design document(s): ${decisions.map((d) => `\`${d}\``).join(", ") || "none"}.`,
       validation: `${decisions.length} markdown file(s) under \`docs/decisions/\` or \`docs/rpi/\`.`,
-      hint: "write docs/decisions/D01-<topic>.md (or use /rpi or /design-control-loop)" },
+      hint: "create docs/decisions/D01-<topic>.md from the template in docs/decisions/README.md (or use /rpi)" },
     { key: "STEP-4", name: "Build: control layer (MCP, skills, hooks)", done: sdk && denies.length > 0, title: "Proved the control layer: the hook refused an action",
       shipped: `Control layer in place: local \`sre\` MCP server, ${skills.length} project skills in \`.claude/skills/\`, guard hook in \`.claude/hooks/guard.mjs\`.`,
       validation: `${denies.length} deny decision(s) in \`approvals/audit.jsonl\`${denies.length ? `; latest: "${String(denies[denies.length - 1].reason ?? "").slice(0, 100)}"` : ""}. Run \`npm run test:hooks\` for the full suite.`,

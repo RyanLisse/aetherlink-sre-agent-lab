@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // PreToolUse guard for the SRE lab (Node, no bash/jq needed: works the same on Windows, macOS, Linux and in the container).
 // Deterministic layer behind the skills. Decisions go to Claude as JSON (permissionDecision allow|ask|deny)
-// and are appended to approvals/audit.jsonl. Messages to Claude are English; the lab README explains them in Dutch.
+// and are appended to approvals/audit.jsonl. All messages are English; README.md and FACILITATOR.md explain the flow.
 // Best-effort by design: regexes are not a sandbox. Real isolation = container + managed settings (see README).
 import { readFileSync, appendFileSync, mkdirSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
