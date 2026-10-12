@@ -65,7 +65,10 @@ Reference solution (the `step-2` material):
 // in test/schema.test.ts
 test("schema requires a blast_radius string", () => {
   const d = good("inc-001.good.json");
-  assert.equal(Diagnosis.safeParse(d).success, false); // red: field missing
+  assert.equal(typeof d.blast_radius, "string");
+  assert.equal(Diagnosis.safeParse(d).success, true);
+  const { blast_radius, ...without } = d;
+  assert.equal(Diagnosis.safeParse(without).success, false);
 });
 ```
 
@@ -79,7 +82,7 @@ test("schema requires a blast_radius string", () => {
   "blast_radius": "checkout-api only; sample data",
 ```
 
-Verify it really goes red first: `npm test` fails on the new test before the schema and fixtures are touched; green after.
+Verify it really goes red first: `npm test` fails on the new test before the schema and fixtures are touched (`pass 17 / fail 1`); green after = `pass 18 / fail 0`.
 
 ### Build: controls / hooks — STEP-4 (13:00)
 
