@@ -10,6 +10,8 @@ An SRE agent on a small demo app (`checkout-api`). The agent reads alerts, logs,
 
 ## ⚠️ Disclaimer: your data, your policy
 
+The same text, plus what the lab simulates and the skill flag list, is in the handout [notes/worldline-flags.md](notes/worldline-flags.md).
+
 - This lab runs fully **locally on your own laptop**, with fictional sample data.
 - **AetherLink (and Ryan Lisse) receives, collects or stores no data from participants or their organisation**: no prompts, code, logs, credentials, diagnoses or telemetry. There is no server of ours anything goes to.
 - Claude Code uses **your own login** (your own Claude account or API key, or your own organisation's Vertex environment). What happens there falls under your agreements with that provider.
@@ -65,7 +67,7 @@ Only if your organisation offers Claude via Google Vertex AI: set `CLAUDE_CODE_U
 | `step-5` | Test | `/verify-this` verdict in `docs/verify/` |
 | `step-6` | Deploy (gate) | config fix, named approval (`facilitator-example`), PR/MR description |
 | `step-7` | Maintain | new eval case `evals/cases/inc-003.json` (scored by `npm run eval`) |
-| `step-8` | Hackathon | `HANDOFF.md` |
+| `step-8` | Hackathon | `HANDOFF.md` (the hackathon intent goes to `hackathon/intent.md`, from the template `examples/intent.md`) |
 
 Look without losing your own work: `git diff main step-4`, or in a separate folder: `git worktree add ../lab-step-4 step-4`. Note: steps STEP-0 and STEP-4 in `PROGRESS.md` only get an entry once the hook has fired in your own session (evidence in `approvals/audit.jsonl`, which is not in git). The step tags themselves still contain the older `progress.md`; `main` has the new `PROGRESS.md`.
 

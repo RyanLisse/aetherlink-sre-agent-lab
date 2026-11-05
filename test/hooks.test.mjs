@@ -56,6 +56,7 @@ check("write verify evidence allowed", "allow", P("Write", "file_path", D("docs/
 check("write show-me html allowed", "allow", P("Write", "file_path", D("docs/show-me/show-me-pool.html")));
 check("write PR/MR description allowed", "allow", P("Write", "file_path", D("docs/pr/fix-db-pool-size.md")));
 check("write intent.md asks", "ask", P("Write", "file_path", D("intent.md")));
+check("write hackathon intent asks", "ask", P("Write", "file_path", D("hackathon/intent.md")));
 check("write eval case asks", "ask", P("Write", "file_path", D("evals/cases/inc-009.json")));
 check("edit app on main denied", "deny", P("Edit", "file_path", D("app/config/prod.env")));
 // gate (GitHub and GitLab)

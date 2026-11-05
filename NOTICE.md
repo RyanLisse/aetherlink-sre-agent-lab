@@ -15,6 +15,7 @@ This repository is MIT-licensed (see [LICENSE](LICENSE)). It contains adapted th
 | `.claude/skills/cli-for-agents/` | adapted from Cursor's `cli-for-agent` plugin ([cursor/plugins](https://github.com/cursor/plugins), MIT, Copyright (c) 2026 Cursor) via [claude-code-skills-pack](https://github.com/RyanLisse/claude-code-skills-pack) | MIT | none (pack version) |
 | `.claude/skills/eli5/` | [claude-code-skills-pack](https://github.com/RyanLisse/claude-code-skills-pack) (original rewrite; see the pack's ATTRIBUTION.md) | MIT (this repo's license) | none |
 | `.claude/skills/handoff/` | [claude-code-skills-pack](https://github.com/RyanLisse/claude-code-skills-pack) | MIT (this repo's license) | none |
+| `examples/intent.md` | [claude-code-skills-pack](https://github.com/RyanLisse/claude-code-skills-pack) `examples/intent.md` | MIT (this repo's license) | one source comment added at the top |
 
 Not included on purpose: `archify` (downloads and runs external code via `git clone`/`npx`; the lab is offline), `java-lts-migration` (not relevant to this lab), `build-iterated-agentic-loop` (unattended loop with API keys and permission bypass). They stay in their source repos.
 

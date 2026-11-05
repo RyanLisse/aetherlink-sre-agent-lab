@@ -90,7 +90,7 @@ switch (tool) {
       decide("deny", "Code fixes only on a fix/* branch, and only as a PR/MR.");
     }
     // SDLC artefacts the team writes with Claude (intent, spec, plan, evidence, eval cases, tests): every edit confirmed by a human.
-    if (/^(intent\.md|HANDOFF\.md|CLAUDE\.md|docs\/(spec|design|plan|evidence|gate)\.md|docs\/decisions\/[^/]+\.md|evals\/(cases|fixtures)\/[^/]+\.json|evals\/schema\.ts|test\/[^/]+\.test\.ts)$/.test(rel))
+    if (/^(intent\.md|hackathon\/intent\.md|HANDOFF\.md|CLAUDE\.md|docs\/(spec|design|plan|evidence|gate)\.md|docs\/decisions\/[^/]+\.md|evals\/(cases|fixtures)\/[^/]+\.json|evals\/schema\.ts|test\/[^/]+\.test\.ts)$/.test(rel))
       decide("ask", `SDLC artefact '${rel}': a human confirms this edit.`);
     decide("deny", `Writes are limited to docs/diagnoses/, docs/verify/, docs/show-me/, docs/pr/, SDLC artefacts (ask) and app/ on a fix/* branch (ask). '${rel}' is protected.`);
   }

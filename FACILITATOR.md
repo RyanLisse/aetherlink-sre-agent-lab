@@ -133,7 +133,7 @@ Exercise: add a check to `test/hooks.test.mjs` (e.g. `check("terraform destroy b
 ### Hackathon: intent + HANDOFF.md — STEP-9 (15:40)
 
 - **Goal:** day 1 of the hackathon captured: decided, OPEN, first steps.
-- **Commands:** `/handoff` → `HANDOFF.md` (≥ 100 chars, no TODO).
+- **Commands:** `cp examples/intent.md hackathon/intent.md` (PowerShell: `Copy-Item examples/intent.md hackathon/intent.md`), then fill it in with Claude (the hook asks before each edit). Do **not** write the hackathon idea into the root `intent.md`: `CLAUDE.md` imports that file as the SRE lab intent. Then `/handoff` → `HANDOFF.md` (≥ 100 chars, no TODO).
 - **Expected:** `[x] STEP-9`.
 - **Common failure:** a `TODO` left in `HANDOFF.md`. Fix: write `OPEN:` for unresolved items instead of TODO — the hook checks for the word TODO.
 - **Catch-up tag:** `step-8`.
