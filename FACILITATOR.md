@@ -140,4 +140,6 @@ Exercise: add a check to `test/hooks.test.mjs` (e.g. `check("terraform destroy b
 
 ## Catching a team up with step tags
 
+**Before the day, check every step:** `npm run check:steps`. For each local `steps2/*` branch it runs `npm test`, `npm run test:hooks` and `npm run eval` in a temp worktree, replays the session evidence, and checks `npm run progress -- --status`. Expected: eight `ok` lines. `npm test` shows `pass 17` on step 1 and `pass 18` from step 2 (the Design exercise). Step 7 and 8 show `eval 8 ok/0 skip`. A rebuilt chain (`steps2/*`, tags `v2-step-*`) sits on top of `main`; until it is published, the tags below are the old chain, which starts before `main` and lacks main's newer tests. After `main` moves, rebase the chain: `git rebase --onto main <old-base> steps2/8-hackathon`, then move the other `steps2/*` branches and tags to the matching commits.
+
 Each tag is the worked-out state at the end of a block (`steps/N-…` branches hold the same). Look without switching: `git diff main step-4`. Work from it without losing current work: `git worktree add ../lab-step-4 step-4`. Note: `approvals/audit.jsonl` and `.lab/` are local evidence, not in git — STEP-0/STEP-4/STEP-6 only mark done after the hook sees the evidence in *that* checkout.

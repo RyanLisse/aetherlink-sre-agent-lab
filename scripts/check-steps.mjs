@@ -38,10 +38,10 @@ for (const ref of refs) {
     if (n >= 3) guard("Bash", { command: "curl https://example.com" });  // Controls block: Claude tries a blocked action
     const diagnoses = existsSync(join(dir, "docs/diagnoses")) ? readdirSync(join(dir, "docs/diagnoses")).filter((f) => /^inc-\d{3}.*\.json$/.test(f)) : [];
 
-    const gates = {
-      test: run(npm, ["test"]).status,
-      hooks: run(npm, ["run", "test:hooks"]).status,
-    };
+    const t = run(npm, ["test"]), h = run(npm, ["run", "test:hooks"]);
+    const gates = { test: t.status, hooks: h.status };
+    const tests = t.stdout.match(/^(?:ℹ|#) pass (\d+)/m)?.[1] ?? "?";
+    const hookPass = [...h.stdout.matchAll(/^pass=(\d+)/gm)].map((m) => m[1]).join("+");
     const ev = run(npm, ["run", "eval"]);
     gates.eval = ev.status;
     for (const d of diagnoses) gates[`eval:${d}`] = run(npm, ["run", "eval", "--", `docs/diagnoses/${d}`]).status;
@@ -54,7 +54,7 @@ for (const ref of refs) {
     const failed = Object.entries(gates).filter(([, s]) => s !== 0).map(([g]) => g);
     const ok = !failed.length && !missing.length;
     if (!ok) bad++;
-    console.log(`${ok ? "ok  " : "FAIL"} ${ref.padEnd(20)} ${Object.entries(gates).map(([g, s]) => `${g}=${s}`).join(" ")}  eval ${scored} ok/${skipped} skip  [x] ${done.map((k) => `STEP-${k}`).join(",") || "none"}${missing.length ? `  missing ${missing.map((k) => `STEP-${k}`).join(",")}` : ""}`);
+    console.log(`${ok ? "ok  " : "FAIL"} ${ref.padEnd(20)} ${Object.entries(gates).map(([g, s]) => `${g}=${s}`).join(" ")}  npm test pass ${tests}, hooks pass ${hookPass}, eval ${scored} ok/${skipped} skip  [x] ${done.map((k) => `STEP-${k}`).join(",") || "none"}${missing.length ? `  missing ${missing.map((k) => `STEP-${k}`).join(",")}` : ""}`);
   } catch (e) {
     bad++;
     console.log(`FAIL ${ref.padEnd(20)} ${e.message}`);
