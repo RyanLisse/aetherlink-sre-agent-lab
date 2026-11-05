@@ -1,0 +1,29 @@
+{
+ "incident": "inc-003-memory-leak",
+ "service": "checkout-api",
+ "root_cause": {
+  "category": "capacity",
+  "summary": "The 12:00 traffic peak needs more memory than the containers have.",
+  "trigger_deploy": null
+ },
+ "evidence": [
+  {
+   "log_id": "L0087",
+   "quote": "traffic peak started"
+  },
+  {
+   "log_id": "L0091",
+   "quote": "OOMKilled"
+  }
+ ],
+ "ruled_out": [],
+ "proposed_action": {
+  "runbook": "capacity",
+  "step": "Increase memory limit to 2048 MB",
+  "executes": false,
+  "needs_approval_from": "on-call"
+ },
+ "blast_radius": "all checkouts during the peak",
+ "confidence": "high",
+ "open": []
+}

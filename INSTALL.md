@@ -95,7 +95,7 @@ npm run eval
 Does it work? Expect:
 - `npm test` → at the end `pass 17` and `fail 0` (with `#` or `ℹ` in front, depending on your Node version)
 - `npm run test:hooks` → three times `pass=… fail=0`
-- `npm run eval` → six lines that start with `ok` (good examples `PASS`, bad ones `REJECTED`)
+- `npm run eval` → six lines that start with `ok` (good examples `PASS`, bad ones `REJECTED`) and two `skip` lines for inc-003 (its eval case is a later exercise)
 
 None of these steps uses a model, a login or the internet (except `npm ci` and `git clone`).
 

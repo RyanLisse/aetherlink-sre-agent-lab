@@ -1,0 +1,44 @@
+{
+ "incident": "inc-003-memory-leak",
+ "service": "checkout-api",
+ "root_cause": {
+  "category": "resource-leak",
+  "summary": "Deploy d-0170 (1.16.0) added an in-memory price-quote cache with no TTL and no max entries; heap grows about 16 MB per minute until the container is OOMKilled at 1024 MB, about every 40 minutes.",
+  "trigger_deploy": "d-0170"
+ },
+ "evidence": [
+  {
+   "log_id": "L0003",
+   "quote": "\"PRICE_QUOTE_CACHE_TTL_S\":0"
+  },
+  {
+   "log_id": "L0013",
+   "quote": "OOMKilled"
+  },
+  {
+   "log_id": "L0006",
+   "quote": "\"evictions\":0"
+  }
+ ],
+ "ruled_out": [
+  {
+   "hypothesis": "peak traffic at 12:00",
+   "why": "heap_mb already climbs at the same rate from 06:41 with low rps; the first OOMKilled is hours before the peak"
+  },
+  {
+   "hypothesis": "DB pool or PSP problem",
+   "why": "requests between the OOM events return 200 with normal latency"
+  }
+ ],
+ "proposed_action": {
+  "runbook": "memory-leak",
+  "step": "A. Roll back d-0170 by on-call; B. PR adding a TTL and max entries to the price-quote cache",
+  "executes": false,
+  "needs_approval_from": "on-call (named)"
+ },
+ "blast_radius": "checkout-api only: a short 503 burst at each OOM event, about every 40 minutes; other services unaffected; sample data",
+ "confidence": "high",
+ "open": [
+  "Which TTL keeps quotes correct? Ask the pricing owner."
+ ]
+}

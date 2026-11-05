@@ -17,7 +17,7 @@ cd aetherlink-sre-agent-lab
 npm ci
 npm test               # -> "pass 17" / "fail 0"
 npm run test:hooks     # -> three times "pass=… fail=0"
-npm run eval           # -> six lines starting with "ok" (3x PASS, 3x REJECTED)
+npm run eval           # -> six lines starting with "ok" (3x PASS, 3x REJECTED) + two "skip" lines (inc-003)
 
 # the gate, on a throw-away branch:
 git switch -c fix/facilitator-dry-run
@@ -35,7 +35,7 @@ Optional extra checks: `npm run skill:scan -- .claude/skills` (flags are expecte
 
 - **Goal:** lab installed, Claude Code trusted, MCP `sre` connected, guard hook fired once.
 - **Commands:** `npm ci` → `npm test` → `npm run test:hooks` → `npm run eval` → `claude` (trust: **Yes**, MCP `sre`: approve) → `/status`, `/mcp` → prompt `Run npm run progress -- --status` (the guard logs this tool call).
-- **Expected:** `pass 17 / fail 0`; three times `fail=0`; six `ok` lines; `/mcp` shows `sre` connected; `npm run progress -- --status` shows `[x] STEP-0`.
+- **Expected:** `pass 17 / fail 0`; three times `fail=0`; six `ok` lines and two `skip` lines; `/mcp` shows `sre` connected; `npm run progress -- --status` shows `[x] STEP-0`.
 - **Common failure:** progress stays `0/10` or settings seem ignored → the trust question was not accepted. Fix: restart `claude` in the lab folder, choose **Yes**. After that: `claude` asks for a login — for the tests you do not need one.
 - **Catch-up:** none needed — everyone starts on `main`.
 
@@ -77,7 +77,7 @@ test("schema requires a blast_radius string", () => {
   blast_radius: z.string(),
 ```
 
-All six fixtures in `evals/fixtures/` already carry `blast_radius`, so nobody edits them. The bad fixtures keep failing for their own reasons after the exercise (for example `invented evidence L9999`), and `npm run eval` output does not change.
+All fixtures in `evals/fixtures/` already carry `blast_radius`, so nobody edits them. The bad fixtures keep failing for their own reasons after the exercise (for example `invented evidence L9999`), and `npm run eval` output does not change.
 
 Verify it really goes red first: `npm test` fails on the new test before the schema is touched (`pass 17 / fail 1`); green after = `pass 18 / fail 0`. From here on the team's `npm test` count is **18**.
 
@@ -125,9 +125,9 @@ Exercise: add a check to `test/hooks.test.mjs` (e.g. `check("terraform destroy b
 ### Maintain: incident → eval case — STEP-8 (15:30)
 
 - **Goal:** a new eval case in `evals/cases/inc-00N.json` beyond the three that ship with the lab.
-- **Commands:** design or build a case (see `docs/stretch-incidents.md`); optionally `npm run generate` for new sample data; `npm test` stays green.
-- **Expected:** `[x] STEP-8`; `evals/cases/` has 4+ files; `pass 18 / fail 0` (17 if the team skipped the Design exercise).
-- **Common failure:** `[ ] STEP-8` → the case file is named wrong or lands in the wrong folder. Fix: `evals/cases/inc-003.json` (number + `.json`, inside `evals/cases/`).
+- **Commands:** write `evals/cases/inc-003.json` for the inc-003 incident (data, runbook and fixtures ship with the lab; design in `docs/stretch-incidents.md`). Read the evidence with the `sre` MCP tools. Then `npm run eval`: the two inc-003 lines change from `skip` to `PASS` and `REJECTED`. `npm test` stays green.
+- **Expected:** `[x] STEP-8`; `evals/cases/` has 4+ files; `ok … inc-003.good.json -> PASS` and `ok … inc-003.bad.json -> REJECTED`; `pass 18 / fail 0` (17 if the team skipped the Design exercise).
+- **Common failure:** `[ ] STEP-8` → the case file is named wrong or lands in the wrong folder. Fix: `evals/cases/inc-003.json` (number + `.json`, inside `evals/cases/`). Second failure: `FAIL … inc-003.good.json -> REJECTED` → the case asks for a keyword or log id the good diagnosis does not have. Fix: compare with `evals/fixtures/inc-003.good.json` and the logs, then adjust the case. Reference: `git show step-7:evals/cases/inc-003.json`.
 - **Catch-up tag:** `step-7`.
 
 ### Hackathon: intent + HANDOFF.md — STEP-9 (15:40)

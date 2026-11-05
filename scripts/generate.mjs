@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// Reproducible sample data for inc-002 and inc-004 (seeded, no network). inc-001 is hand-written and left untouched.
+// Reproducible sample data for inc-002, inc-003 and inc-004 (seeded, no network). inc-001 is hand-written and left untouched.
 // Writes incidents/<id>/{alert.json,logs.jsonl,metrics.csv,deploys.json}, evals/cases/<id>.json and good/bad fixtures.
+// inc-003 gets data and fixtures but no eval case: writing evals/cases/inc-003.json is the Maintain exercise.
 // Usage: node scripts/generate.mjs        (re-running gives byte-identical output)
 import { mkdirSync, writeFileSync } from "node:fs";
 
@@ -156,4 +157,61 @@ const ids = (logs, pred) => logs.filter(pred).map((l) => l.id);
     confidence: "high", open: [],
   }));
 }
-console.log("generated inc-002-bad-deploy, inc-004-upstream-timeout (+ cases, fixtures)");
+// ---------- inc-003: memory leak after v1.16 (in-memory price-quote cache without TTL); peak traffic at 12:00 is the distractor ----------
+{
+  const r = rng(3003); const L = []; let o = 0; const add = (ts, f) => L.push({ ts: iso(ts), service: "checkout-api", ...f, _o: o++ });
+  const start = at(14, 6, 30), end = at(14, 12, 30), deployAt = at(14, 6, 40), LIMIT = 1024;
+  const peak = (t) => t >= at(14, 11, 45) && t < at(14, 12, 15);
+  add(deployAt, { level: "info", msg: "deploy started", version: "1.16.0", deploy_id: "d-0170" });
+  add(plus(deployAt, 25), { level: "info", msg: "config loaded", DB_POOL_MAX: 20, PSP_RETRIES: 3, PRICE_QUOTE_CACHE: "memory", PRICE_QUOTE_CACHE_TTL_S: 0, PRICE_QUOTE_CACHE_MAX_ENTRIES: 0 });
+  add(plus(deployAt, 50), { level: "info", msg: "deploy finished", version: "1.16.0", deploy_id: "d-0170" });
+  const M = []; let heap = 380, restarts = 0, entries = 0, pod = 1;
+  for (let t = start; t <= end; t = plus(t, 60)) {
+    const rps = Math.round((peak(t) ? 88 : 42) + r() * 6);
+    if (t > plus(deployAt, 50)) { heap += 15 + r() * 3; entries += rps * 60; }
+    if (heap >= LIMIT) {
+      add(t, { level: "error", msg: "OOMKilled", container: `checkout-api-${pod}`, heap_mb: Math.round(heap), limit_mb: LIMIT });
+      add(plus(t, 1), { level: "error", msg: "POST /checkout 503", latency_ms: 30 + Math.round(r() * 20) });
+      restarts++; pod++; heap = 380; entries = 0;
+      add(plus(t, 20), { level: "warn", msg: "container restarted", container: `checkout-api-${pod}`, restart_count: restarts });
+    }
+    if (t.getUTCMinutes() % 10 === 5) {
+      add(t, { level: "info", msg: "POST /checkout 200", latency_ms: 110 + Math.round(r() * 60) });
+      if (t > plus(deployAt, 50)) add(plus(t, 2), { level: "info", msg: "price quote cache stats", entries, evictions: 0, heap_mb: Math.round(heap) });
+    }
+    if (t.getTime() === at(14, 11, 45).getTime()) add(t, { level: "info", msg: "traffic peak started", rps });
+    M.push([iso(t), "heap_mb", Math.round(heap)], [iso(t), "rps", rps], [iso(t), "restarts_total", restarts]);
+  }
+  const logs = build("inc-003", L);
+  write("inc-003-memory-leak", {
+    alert: { id: "ALERT-2026-1014-003", incident: "inc-003-memory-leak", service: "checkout-api", severity: "P2", fired_at: "2026-10-14T12:05:00Z", rule: "increase(restarts_total[1h]) > 1", value: "2", summary: "checkout-api containers restart repeatedly (OOMKilled)", dashboard: "local://metrics/checkout-api" },
+    logs, metrics: M,
+    deploys: [
+      { deploy_id: "d-0161", service: "checkout-api", version: "1.15.3", at: "2026-10-13T15:10:00Z", by: "ci", changes: ["config: PSP_CIRCUIT_BREAKER false -> true (inc-004)"] },
+      { deploy_id: "d-0170", service: "checkout-api", version: "1.16.0", at: "2026-10-14T06:40:00Z", by: "ci", changes: ["feat: cache price quotes in memory", "config: PRICE_QUOTE_CACHE=memory (no TTL, no max entries)"] },
+    ],
+  });
+  const oom = ids(logs, (l) => l.msg === "OOMKilled"); const cfg = ids(logs, (l) => l.msg === "config loaded"); const stats = ids(logs, (l) => l.msg === "price quote cache stats"); const pk = ids(logs, (l) => l.msg === "traffic peak started");
+  writeFileSync("evals/fixtures/inc-003.good.json", json({
+    incident: "inc-003-memory-leak", service: "checkout-api",
+    root_cause: { category: "resource-leak", summary: "Deploy d-0170 (1.16.0) added an in-memory price-quote cache with no TTL and no max entries; heap grows about 16 MB per minute until the container is OOMKilled at 1024 MB, about every 40 minutes.", trigger_deploy: "d-0170" },
+    evidence: [{ log_id: cfg[0], quote: "\"PRICE_QUOTE_CACHE_TTL_S\":0" }, { log_id: oom[0], quote: "OOMKilled" }, { log_id: stats[0], quote: "\"evictions\":0" }],
+    ruled_out: [
+      { hypothesis: "peak traffic at 12:00", why: "heap_mb already climbs at the same rate from 06:41 with low rps; the first OOMKilled is hours before the peak" },
+      { hypothesis: "DB pool or PSP problem", why: "requests between the OOM events return 200 with normal latency" },
+    ],
+    proposed_action: { runbook: "memory-leak", step: "A. Roll back d-0170 by on-call; B. PR adding a TTL and max entries to the price-quote cache", executes: false, needs_approval_from: "on-call (named)" },
+    blast_radius: "checkout-api only: a short 503 burst at each OOM event, about every 40 minutes; other services unaffected; sample data",
+    confidence: "high", open: ["Which TTL keeps quotes correct? Ask the pricing owner."],
+  }));
+  writeFileSync("evals/fixtures/inc-003.bad.json", json({
+    incident: "inc-003-memory-leak", service: "checkout-api",
+    root_cause: { category: "capacity", summary: "The 12:00 traffic peak needs more memory than the containers have.", trigger_deploy: null },
+    evidence: [{ log_id: pk[0], quote: "traffic peak started" }, { log_id: oom[oom.length - 1], quote: "OOMKilled" }],
+    ruled_out: [],
+    proposed_action: { runbook: "capacity", step: "Increase memory limit to 2048 MB", executes: false, needs_approval_from: "on-call" },
+    blast_radius: "all checkouts during the peak",
+    confidence: "high", open: [],
+  }));
+}
+console.log("generated inc-002-bad-deploy, inc-003-memory-leak, inc-004-upstream-timeout (+ cases for 002/004, fixtures)");
