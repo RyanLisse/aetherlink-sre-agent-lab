@@ -32,6 +32,7 @@
   "executes": false,
   "needs_approval_from": "on-call (named)"
  },
+ "blast_radius": "checkout-api calls to psp-sandbox; every checkout that needs the PSP ends in 504; sample data",
  "confidence": "medium",
  "open": [
   "Is the vendor degradation regional? Confirm on the vendor status page (human, outside the lab)."

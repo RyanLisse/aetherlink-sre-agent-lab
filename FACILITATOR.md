@@ -57,7 +57,7 @@ Optional extra checks: `npm run skill:scan -- .claude/skills` (flags are expecte
 
 **Test-first exercise (slides, word for word):**
 
-> "Add a test in `test/schema.test.ts` that expects a required `blast_radius` string field. Run `npm test`: red. Add `blast_radius` to `evals/schema.ts` and to the good fixtures. Run `npm test`: green."
+> "Add a test in `test/schema.test.ts` that expects a required `blast_radius` string field. Run `npm test`: red. Add `blast_radius` to `evals/schema.ts`. Run `npm test`: green."
 
 Reference solution (the `step-2` material):
 
@@ -77,12 +77,9 @@ test("schema requires a blast_radius string", () => {
   blast_radius: z.string(),
 ```
 
-```json
-// in each evals/fixtures/*.good.json:
-  "blast_radius": "checkout-api only; sample data",
-```
+All six fixtures in `evals/fixtures/` already carry `blast_radius`, so nobody edits them. The bad fixtures keep failing for their own reasons after the exercise (for example `invented evidence L9999`), and `npm run eval` output does not change.
 
-Verify it really goes red first: `npm test` fails on the new test before the schema and fixtures are touched (`pass 17 / fail 1`); green after = `pass 18 / fail 0`.
+Verify it really goes red first: `npm test` fails on the new test before the schema is touched (`pass 17 / fail 1`); green after = `pass 18 / fail 0`. From here on the team's `npm test` count is **18**.
 
 ### Build: controls / hooks — STEP-4 (13:00)
 
@@ -129,7 +126,7 @@ Exercise: add a check to `test/hooks.test.mjs` (e.g. `check("terraform destroy b
 
 - **Goal:** a new eval case in `evals/cases/inc-00N.json` beyond the three that ship with the lab.
 - **Commands:** design or build a case (see `docs/stretch-incidents.md`); optionally `npm run generate` for new sample data; `npm test` stays green.
-- **Expected:** `[x] STEP-8`; `evals/cases/` has 4+ files; `pass 17 / fail 0`.
+- **Expected:** `[x] STEP-8`; `evals/cases/` has 4+ files; `pass 18 / fail 0` (17 if the team skipped the Design exercise).
 - **Common failure:** `[ ] STEP-8` → the case file is named wrong or lands in the wrong folder. Fix: `evals/cases/inc-003.json` (number + `.json`, inside `evals/cases/`).
 - **Catch-up tag:** `step-7`.
 

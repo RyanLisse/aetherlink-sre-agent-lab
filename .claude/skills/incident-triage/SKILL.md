@@ -8,5 +8,5 @@ description: Incident triage policy. Use whenever diagnosing an alert, reading l
 2. Every claim cites a log line id (`L0021`) with a verbatim quote, or a metric name + timestamp. No citation = write it under `open`.
 3. Rule out at least two other hypotheses, with the evidence that rules them out.
 4. Propose one step from a runbook in `runbooks/`. Never execute it; set `executes: false` and name who must approve.
-5. Output: `docs/diagnoses/<incident>.json` matching `evals/schema.ts`, plus a 5-line human summary in `docs/diagnoses/<incident>.md`.
+5. Output: `docs/diagnoses/<incident>.json` matching `evals/schema.ts`, with a `blast_radius` string (which service, path or customers the incident hits, and what stays healthy), plus a 5-line human summary in `docs/diagnoses/<incident>.md`.
 6. Before you report done, run `npm run eval -- docs/diagnoses/<incident>.json` and paste the result.

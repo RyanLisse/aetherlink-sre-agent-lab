@@ -28,6 +28,7 @@
   "executes": false,
   "needs_approval_from": "on-call"
  },
+ "blast_radius": "checkout-api since version 1.15.2",
  "confidence": "high",
  "open": []
 }

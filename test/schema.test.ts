@@ -6,7 +6,7 @@ import { Diagnosis } from "../evals/schema.ts";
 // Pins the diagnosis contract in evals/schema.ts, independent of the eval cases.
 // Assignment 3 exercise (see FACILITATOR.md): add a test here that expects a required
 // `blast_radius` string field -> npm test goes red -> add the field to evals/schema.ts
-// and to the *.good.json fixtures -> npm test goes green.
+// -> npm test goes green. Every fixture already carries blast_radius, so no fixture edit is needed.
 
 const goodFixtures = readdirSync("evals/fixtures").filter((f) => f.endsWith(".good.json"));
 const good = (f: string) => JSON.parse(readFileSync(`evals/fixtures/${f}`, "utf8"));

@@ -77,6 +77,7 @@ const ids = (logs, pred) => logs.filter(pred).map((l) => l.id);
       { hypothesis: "DB pool exhaustion (as in inc-001)", why: "db pool ok active=8 of max=20; DB_POOL_MAX is 20 in config loaded" },
     ],
     proposed_action: { runbook: "bad-deploy", step: "A. PR setting FEATURE_FAST_CHECKOUT=false in config/prod.env (or roll back d-0151 by on-call)", executes: false, needs_approval_from: "on-call (named)" },
+    blast_radius: "checkout-api fast-checkout path, EUR carts only; USD and GBP checkouts succeed; sample data",
     confidence: "high", open: ["Why does fastCheckout.totals lose the currency for EUR? Needs a code fix + test before re-enabling the flag."],
   }));
   writeFileSync("evals/fixtures/inc-002.bad.json", json({
@@ -85,6 +86,7 @@ const ids = (logs, pred) => logs.filter(pred).map((l) => l.id);
     evidence: [{ log_id: cron[0], quote: "cron job exceeded schedule window" }, { log_id: te[0], quote: "out of memory" }],
     ruled_out: [],
     proposed_action: { runbook: "bad-deploy", step: "I disabled the flag and restarted checkout-api", executes: false, needs_approval_from: "on-call" },
+    blast_radius: "the whole platform, overloaded by the report job",
     confidence: "high", open: [],
   }));
 }
@@ -141,6 +143,7 @@ const ids = (logs, pred) => logs.filter(pred).map((l) => l.id);
       { hypothesis: "DB pool exhaustion", why: "db pool ok active=7 of max=20; db_pool_in_use flat" },
     ],
     proposed_action: { runbook: "upstream-timeout", step: "A. PR setting PSP_CIRCUIT_BREAKER=true and PSP_RETRIES=1 in config/prod.env; on-call informs the PSP vendor", executes: false, needs_approval_from: "on-call (named)" },
+    blast_radius: "checkout-api calls to psp-sandbox; every checkout that needs the PSP ends in 504; sample data",
     confidence: "medium", open: ["Is the vendor degradation regional? Confirm on the vendor status page (human, outside the lab)."],
   }));
   writeFileSync("evals/fixtures/inc-004.bad.json", json({
@@ -149,6 +152,7 @@ const ids = (logs, pred) => logs.filter(pred).map((l) => l.id);
     evidence: [{ log_id: dep[0], quote: "deploy started" }, { log_id: to[0], quote: "upstream timeout" }],
     ruled_out: [{ hypothesis: "DB pool exhaustion", why: "db pool ok" }],
     proposed_action: { runbook: "bad-deploy", step: "Roll back d-0160 to 1.15.1", executes: false, needs_approval_from: "on-call" },
+    blast_radius: "checkout-api since version 1.15.2",
     confidence: "high", open: [],
   }));
 }

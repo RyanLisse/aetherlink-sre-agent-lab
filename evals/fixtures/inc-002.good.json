@@ -32,6 +32,7 @@
   "executes": false,
   "needs_approval_from": "on-call (named)"
  },
+ "blast_radius": "checkout-api fast-checkout path, EUR carts only; USD and GBP checkouts succeed; sample data",
  "confidence": "high",
  "open": [
   "Why does fastCheckout.totals lose the currency for EUR? Needs a code fix + test before re-enabling the flag."
