@@ -109,7 +109,7 @@ claude
 3. Type `/status` → you see your own login (or Google Vertex AI, if you use that route).
 4. Type `/mcp` → `sre` is **connected**.
 5. Type `/` → the list shows `design-control-loop`, `grilling`, `show-me`, `verify-this`, `review-and-ship`, `visual-pr`, `handoff` and `incident-triage`.
-6. Run `npm run progress -- --status`: "STEP-0 Setup" is now `[x]`, and at the bottom of `PROGRESS.md` there is an entry `(STEP-0)`.
+6. Type this prompt: `Run npm run progress -- --status`. Claude runs the command. The guard hook logs the call to `approvals/audit.jsonl`, so the output shows `[x] STEP-0 Setup`. At the bottom of `PROGRESS.md` there is now an entry `(STEP-0)`.
 7. To stop: type `/exit`.
 
 ---

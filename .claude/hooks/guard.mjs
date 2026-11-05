@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // PreToolUse guard for the SRE lab (Node, no bash/jq needed: works the same on Windows, macOS, Linux and in the container).
 // Deterministic layer behind the skills. Decisions go to Claude as JSON (permissionDecision allow|ask|deny)
-// and are appended to approvals/audit.jsonl. All messages are English; README.md and FACILITATOR.md explain the flow.
+// and are appended to approvals/audit.jsonl (a tool call no rule matches is logged as "none"). All messages are English; README.md and FACILITATOR.md explain the flow.
 // Best-effort by design: regexes are not a sandbox. Real isolation = container + managed settings (see README).
 import { readFileSync, appendFileSync, mkdirSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
@@ -22,12 +22,15 @@ const toRel = (p) => {
 };
 const rel = toRel(rawPath);
 
-function decide(decision, reason) {
+function audit(decision, reason) {
   try {
     mkdirSync(join(root, "approvals"), { recursive: true });
     appendFileSync(join(root, "approvals", "audit.jsonl"),
       JSON.stringify({ at: new Date().toISOString(), tool, decision, reason, command: cmd, path: rel }) + "\n");
   } catch { /* audit failure must not open the gate; the decision below still applies */ }
+}
+function decide(decision, reason) {
+  audit(decision, reason);
   process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: "PreToolUse", permissionDecision: decision, permissionDecisionReason: reason } }));
   process.exit(0);
 }
@@ -92,4 +95,6 @@ switch (tool) {
     decide("deny", `Writes are limited to docs/diagnoses/, docs/verify/, docs/show-me/, docs/pr/, SDLC artefacts (ask) and app/ on a fix/* branch (ask). '${rel}' is protected.`);
   }
 }
+// No rule matched: no decision, so Claude Code's own permissions decide. Still logged, so every tool call leaves evidence.
+audit("none", "No guard rule matched; Claude Code permissions decide.");
 process.exit(0);

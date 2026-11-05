@@ -34,7 +34,7 @@ Optional extra checks: `npm run skill:scan -- .claude/skills` (flags are expecte
 ### Setup — STEP-0 (10:45)
 
 - **Goal:** lab installed, Claude Code trusted, MCP `sre` connected, guard hook fired once.
-- **Commands:** `npm ci` → `npm test` → `npm run test:hooks` → `npm run eval` → `claude` (trust: **Yes**, MCP `sre`: approve) → `/status`, `/mcp`.
+- **Commands:** `npm ci` → `npm test` → `npm run test:hooks` → `npm run eval` → `claude` (trust: **Yes**, MCP `sre`: approve) → `/status`, `/mcp` → prompt `Run npm run progress -- --status` (the guard logs this tool call).
 - **Expected:** `pass 17 / fail 0`; three times `fail=0`; six `ok` lines; `/mcp` shows `sre` connected; `npm run progress -- --status` shows `[x] STEP-0`.
 - **Common failure:** progress stays `0/10` or settings seem ignored → the trust question was not accepted. Fix: restart `claude` in the lab folder, choose **Yes**. After that: `claude` asks for a login — for the tests you do not need one.
 - **Catch-up:** none needed — everyone starts on `main`.
@@ -89,7 +89,7 @@ Verify it really goes red first: `npm test` fails on the new test before the sch
 - **Goal:** the team sees the guard deny something and adds its own deny rule, test-first.
 - **Commands:** let Claude try something blocked (e.g. `curl https://example.com`) → `deny` lands in `approvals/audit.jsonl`; `npm run test:hooks` → three times `fail=0`; `npm run progress -- --status`.
 - **Expected:** `[x] STEP-4`; at least one `deny` line in `approvals/audit.jsonl`; `pass=… fail=0` in the hook tests.
-- **Common failure:** STEP-4 stays unchecked → no `deny` was logged yet (audit.jsonl is local, not in git). Fix: have Claude attempt one blocked action, or run `npm run test:hooks`.
+- **Common failure:** STEP-4 stays unchecked → no `deny` was logged yet (audit.jsonl is local, not in git). Fix: have Claude attempt one blocked action. `npm run test:hooks` does not count: it writes to a temp folder.
 - **Catch-up tag:** `step-3`.
 
 **Test-first deny rule (slides):** the rule must go **red** first, so pick a command the guard does not cover yet:
