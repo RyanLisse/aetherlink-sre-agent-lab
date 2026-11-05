@@ -99,6 +99,24 @@ Does it work? Expect:
 
 None of these steps uses a model, a login or the internet (except `npm ci` and `git clone`).
 
+## Step 7b · Your own remote (needed for the PR/MR step)
+
+You cannot push to `RyanLisse/aetherlink-sre-agent-lab`. Push your work to your own project. At Worldline this is GitLab.
+
+1. In GitLab, open your group. Select **New project** → **Create blank project**. Clear **Initialize repository with a README**.
+2. In the lab folder, run (use the clone URL that GitLab shows):
+   ```
+   git remote rename origin upstream
+   git remote add origin https://<your-gitlab-host>/<your-group>/aetherlink-sre-agent-lab.git
+   git push -u origin main
+   git push origin --tags
+   ```
+3. Check: `git remote -v` shows `origin` (your project) and `upstream` (the lab).
+
+Later, after `git push -u origin fix/<name>`, GitLab prints a link to create the merge request. Open it in the browser. `glab mr create --fill` does the same and is optional. The CI file `.gitlab-ci.yml` runs on that merge request.
+
+GitHub instead: `git remote rename origin upstream`, then `gh repo create <you>/aetherlink-sre-agent-lab --private --source . --remote origin --push`. Push the tags with `git push origin --tags`.
+
 ## Step 8 · Start Claude Code in the lab
 
 ```

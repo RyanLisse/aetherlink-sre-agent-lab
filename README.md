@@ -34,6 +34,8 @@ npm run eval           # expect: 6 lines starting with "ok"
 claude                 # trust question: Yes · MCP server sre: approve · /status · /mcp
 ```
 
+For the PR/MR step you push to **your own** remote, not to this repo. At Worldline: create an empty GitLab project, `git remote rename origin upstream`, `git remote add origin <your project URL>`, `git push -u origin main`, `git push origin --tags`. Details: [INSTALL.md, Step 7b](INSTALL.md#step-7b--your-own-remote-needed-for-the-prmr-step).
+
 All hooks and the MCP server start with plain `node` (no bash, no `npx`), so they work the same in PowerShell, Git Bash, zsh and bash.
 
 ### Alternative: Docker
@@ -114,14 +116,14 @@ Two assignments are deliberately test-first. The test must really go red first, 
 1. Claude works on `fix/<name>`; every edit in `app/` asks your confirmation, as does the commit.
 2. Claude tries to push → **deny** (no approval).
 3. A named human (not the author) runs in **their own terminal** (not via Claude): `npm run approve -- <name> fix/<name> "<reason>"` (Docker route: `docker compose run --rm lab npm run approve -- …`).
-4. The human does the last step themselves, with their own git login (the hook does not let Claude push without an approval, and the Docker route deliberately has no git credentials in the container):
+4. The human does the last step themselves, with their own git login, to their **own** remote (`origin` = your GitLab or GitHub project, see [INSTALL.md, Step 7b](INSTALL.md#step-7b--your-own-remote-needed-for-the-prmr-step)) (the hook does not let Claude push without an approval, and the Docker route deliberately has no git credentials in the container):
 
 ```
 git add -f approvals/approvals.jsonl approvals/audit.jsonl
 git commit -m "approval: fix/<name> by <name>"
 git push -u origin fix/<name>
 gh pr create --fill          # GitHub: pull request (PR)
-glab mr create --fill        # GitLab: merge request (MR)
+glab mr create --fill        # GitLab: merge request (MR), or open the link that git push prints
 ```
 
 If Claude put a description in `docs/pr/<branch>.md` with `/visual-pr`, use it: `gh pr create --title "<title>" --body-file docs/pr/<branch>.md` or `glab mr create --title "<title>" --description "$(cat docs/pr/<branch>.md)"` (PowerShell: `--description (Get-Content -Raw docs/pr/<branch>.md)`).

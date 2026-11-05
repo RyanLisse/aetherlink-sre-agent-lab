@@ -120,7 +120,7 @@ Exercise: add a check to `test/hooks.test.mjs` (e.g. `check("terraform destroy b
 ### Deploy: the gate, PR/MR — STEP-7 (15:15)
 
 - **Goal:** a named human approves the `fix/*` branch and opens the PR/MR — never the agent.
-- **Commands:** Claude prepares `fix/<name>` + `docs/pr/<branch>.md`; the human in **their own terminal**: `npm run approve -- <name> fix/<name> "<reason>"` → `git add -f approvals/*.jsonl && git commit` → `git push` → `gh pr create --fill` or `glab mr create --fill`; CI check: `npm run check:approval`.
+- **Commands:** Claude prepares `fix/<name>` + `docs/pr/<branch>.md`; the human in **their own terminal**: `npm run approve -- <name> fix/<name> "<reason>"` → `git add -f approvals/*.jsonl && git commit` → `git push` (to the team's **own** remote, see INSTALL.md Step 7b) → `gh pr create --fill` or `glab mr create --fill`; CI check: `npm run check:approval`.
 - **Expected:** `[x] STEP-7`; `check-approval: fix/<name> approved by <name>`; Claude's push attempt was denied before the approval (`deny` in `audit.jsonl`).
 - **Common failure:** `npm run approve` exits with "Denied: this command is running inside a Claude Code session" → it was run *through* Claude. Fix: a human runs it in a separate terminal (the guard denies it inside Claude by design).
 - **Catch-up tag:** `step-6` (contains `facilitator-example` approval).
