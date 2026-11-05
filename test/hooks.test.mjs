@@ -11,6 +11,7 @@ mkdirSync(join(dir, ".claude", "hooks"), { recursive: true });
 mkdirSync(join(dir, "scripts"), { recursive: true });
 copyFileSync(join(here, ".claude/hooks/guard.mjs"), join(dir, ".claude/hooks/guard.mjs"));
 copyFileSync(join(here, "scripts/approve.mjs"), join(dir, "scripts/approve.mjs"));
+copyFileSync(join(here, ".claude/hooks/progress.mjs"), join(dir, ".claude/hooks/progress.mjs"));
 const git = (...a) => execFileSync("git", ["-C", dir, ...a], { stdio: "ignore" });
 git("init", "-q", "-b", "main");
 git("-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "--allow-empty", "-m", "init");
@@ -27,6 +28,13 @@ const check = (name, want, payload) => {
 };
 const approve = (...args) => spawnSync(process.execPath, [join(dir, "scripts/approve.mjs"), ...args], { cwd: dir, env, encoding: "utf8" });
 const D = (p) => join(dir, p);
+
+// INSTALL.md start-up: the first tool call of a session is often read-only. It must still leave audit
+// evidence, so `npm run progress -- --status` shows STEP-0 done right after setup.
+mkdirSync(join(dir, "node_modules", "@modelcontextprotocol"), { recursive: true });
+check("read-only first call: no decision", "none", P("Bash", "command", "npm run progress -- --status"));
+const step0 = spawnSync(process.execPath, [join(dir, ".claude/hooks/progress.mjs"), "--status"], { env, encoding: "utf8" }).stdout;
+check_status("read-only first call -> [x] STEP-0", /\[x\] STEP-0/.test(step0));
 
 // network, secrets, approvals
 check("curl blocked", "deny", P("Bash", "command", "curl https://example.com"));
@@ -48,6 +56,7 @@ check("write verify evidence allowed", "allow", P("Write", "file_path", D("docs/
 check("write show-me html allowed", "allow", P("Write", "file_path", D("docs/show-me/show-me-pool.html")));
 check("write PR/MR description allowed", "allow", P("Write", "file_path", D("docs/pr/fix-db-pool-size.md")));
 check("write intent.md asks", "ask", P("Write", "file_path", D("intent.md")));
+check("write hackathon intent asks", "ask", P("Write", "file_path", D("hackathon/intent.md")));
 check("write eval case asks", "ask", P("Write", "file_path", D("evals/cases/inc-009.json")));
 check("edit app on main denied", "deny", P("Edit", "file_path", D("app/config/prod.env")));
 // gate (GitHub and GitLab)

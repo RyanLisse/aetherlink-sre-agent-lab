@@ -1,8 +1,10 @@
-# Stretch scenarios (design only, not built yet): inc-003 and inc-005
+# Stretch scenarios: inc-003 (data built, case is the Maintain exercise) and inc-005 (design only)
 
 For teams that finish early, or as homework before W6. Build them with the same pattern as inc-002/inc-004 (`scripts/generate.mjs`): sample data -> runbook -> eval case with a good and a **bad** fixture. Done = `npm run eval` gives PASS for good and REJECTED for bad, and `npm test` stays green.
 
 ## inc-003 · Memory leak after v1.16 (category `resource-leak`)
+
+Built by `npm run generate`: `incidents/inc-003-memory-leak/`, `runbooks/memory-leak.md` and a good and a bad fixture. The eval case is not shipped. Writing `evals/cases/inc-003.json` is the Maintain exercise. Until it exists, `npm run eval` prints `skip` for the two inc-003 fixtures. After it exists, they print `PASS` and `REJECTED`.
 
 | Part | Design |
 |---|---|

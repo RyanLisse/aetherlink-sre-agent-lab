@@ -1,0 +1,11 @@
+{
+ "id": "ALERT-2026-1014-003",
+ "incident": "inc-003-memory-leak",
+ "service": "checkout-api",
+ "severity": "P2",
+ "fired_at": "2026-10-14T12:05:00Z",
+ "rule": "increase(restarts_total[1h]) > 1",
+ "value": "2",
+ "summary": "checkout-api containers restart repeatedly (OOMKilled)",
+ "dashboard": "local://metrics/checkout-api"
+}

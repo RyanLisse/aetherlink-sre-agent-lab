@@ -11,6 +11,7 @@
     { "hypothesis": "Postgres overloaded", "why": "postgres reports active=5 of max_connections=200" }
   ],
   "proposed_action": { "runbook": "db-pool-exhaustion", "step": "A. Roll back the config change from d-0142 (or PR restoring DB_POOL_MAX=20)", "executes": false, "needs_approval_from": "on-call (named)" },
+  "blast_radius": "checkout-api only: checkouts that waited for a DB connection got 503 from 14:02; postgres and psp-sandbox stayed healthy; sample data",
   "confidence": "high",
   "open": ["Why was the pool reduced (cost tuning)? Confirm with the change author."]
 }

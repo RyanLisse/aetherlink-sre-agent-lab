@@ -1,6 +1,6 @@
 /** Deterministic eval: score a diagnosis JSON against the scenario's expected root cause. No model needed.
  *  Usage: tsx evals/check.ts [diagnosis.json ...]   (default: every fixture in evals/fixtures/)
- *  Files named *.bad.json must be REJECTED; everything else must PASS. Results of non-fixture runs are written
+ *  Files named *.bad.json must be REJECTED; everything else must PASS. A default fixture run skips fixtures without a case. Results of non-fixture runs are written
  *  locally to .lab/eval-results.json (read by the progress hook; never leaves the machine). */
 import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { Diagnosis } from "./schema.ts";
@@ -48,7 +48,11 @@ if (isMain) {
   let bad = 0;
   const results: Record<string, { pass: boolean; at_ms: number; fails: string[] }> = {};
   for (const f of files) {
-    const r = score(JSON.parse(readFileSync(f, "utf8")));
+    const raw = JSON.parse(readFileSync(f, "utf8"));
+    const caseFile = `evals/cases/${String(raw.incident).split("-").slice(0, 2).join("-")}.json`;
+    // A shipped fixture can wait for its case: writing that case is the Maintain exercise (inc-003).
+    if (!args.length && !existsSync(caseFile)) { console.log(`skip ${f}  [no ${caseFile} yet: write it in the Maintain step]`); continue; }
+    const r = score(raw);
     const expectFail = f.includes(".bad.");
     const ok = expectFail ? !r.pass : r.pass;
     if (!ok) bad++;

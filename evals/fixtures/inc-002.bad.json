@@ -23,6 +23,7 @@
   "executes": false,
   "needs_approval_from": "on-call"
  },
+ "blast_radius": "the whole platform, overloaded by the report job",
  "confidence": "high",
  "open": []
 }

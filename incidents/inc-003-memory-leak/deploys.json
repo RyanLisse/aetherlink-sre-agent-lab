@@ -1,0 +1,23 @@
+[
+ {
+  "deploy_id": "d-0161",
+  "service": "checkout-api",
+  "version": "1.15.3",
+  "at": "2026-10-13T15:10:00Z",
+  "by": "ci",
+  "changes": [
+   "config: PSP_CIRCUIT_BREAKER false -> true (inc-004)"
+  ]
+ },
+ {
+  "deploy_id": "d-0170",
+  "service": "checkout-api",
+  "version": "1.16.0",
+  "at": "2026-10-14T06:40:00Z",
+  "by": "ci",
+  "changes": [
+   "feat: cache price quotes in memory",
+   "config: PRICE_QUOTE_CACHE=memory (no TTL, no max entries)"
+  ]
+ }
+]

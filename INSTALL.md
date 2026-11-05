@@ -95,9 +95,27 @@ npm run eval
 Does it work? Expect:
 - `npm test` → at the end `pass 17` and `fail 0` (with `#` or `ℹ` in front, depending on your Node version)
 - `npm run test:hooks` → three times `pass=… fail=0`
-- `npm run eval` → six lines that start with `ok` (good examples `PASS`, bad ones `REJECTED`)
+- `npm run eval` → six lines that start with `ok` (good examples `PASS`, bad ones `REJECTED`) and two `skip` lines for inc-003 (its eval case is a later exercise)
 
 None of these steps uses a model, a login or the internet (except `npm ci` and `git clone`).
+
+## Step 7b · Your own remote (needed for the PR/MR step)
+
+You cannot push to `RyanLisse/aetherlink-sre-agent-lab`. Push your work to your own project. At Worldline this is GitLab.
+
+1. In GitLab, open your group. Select **New project** → **Create blank project**. Clear **Initialize repository with a README**.
+2. In the lab folder, run (use the clone URL that GitLab shows):
+   ```
+   git remote rename origin upstream
+   git remote add origin https://<your-gitlab-host>/<your-group>/aetherlink-sre-agent-lab.git
+   git push -u origin main
+   git push origin --tags
+   ```
+3. Check: `git remote -v` shows `origin` (your project) and `upstream` (the lab).
+
+Later, after `git push -u origin fix/<name>`, GitLab prints a link to create the merge request. Open it in the browser. `glab mr create --fill` does the same and is optional. The CI file `.gitlab-ci.yml` runs on that merge request.
+
+GitHub instead: `git remote rename origin upstream`, then `gh repo create <you>/aetherlink-sre-agent-lab --private --source . --remote origin --push`. Push the tags with `git push origin --tags`.
 
 ## Step 8 · Start Claude Code in the lab
 
@@ -109,7 +127,7 @@ claude
 3. Type `/status` → you see your own login (or Google Vertex AI, if you use that route).
 4. Type `/mcp` → `sre` is **connected**.
 5. Type `/` → the list shows `design-control-loop`, `grilling`, `show-me`, `verify-this`, `review-and-ship`, `visual-pr`, `handoff` and `incident-triage`.
-6. Run `npm run progress -- --status`: "STEP-0 Setup" is now `[x]`, and at the bottom of `PROGRESS.md` there is an entry `(STEP-0)`.
+6. Type this prompt: `Run npm run progress -- --status`. Claude runs the command. The guard hook logs the call to `approvals/audit.jsonl`, so the output shows `[x] STEP-0 Setup`. At the bottom of `PROGRESS.md` there is now an entry `(STEP-0)`.
 7. To stop: type `/exit`.
 
 ---

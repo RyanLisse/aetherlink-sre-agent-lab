@@ -8,6 +8,7 @@
   ],
   "ruled_out": [],
   "proposed_action": { "runbook": "db-pool-exhaustion", "step": "Restart postgres to clear connections", "executes": false, "needs_approval_from": "on-call" },
+  "blast_radius": "every service that calls the PSP",
   "confidence": "high",
   "open": []
 }

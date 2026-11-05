@@ -10,6 +10,8 @@ An SRE agent on a small demo app (`checkout-api`). The agent reads alerts, logs,
 
 ## ⚠️ Disclaimer: your data, your policy
 
+The same text, plus what the lab simulates and the skill flag list, is in the handout [notes/worldline-flags.md](notes/worldline-flags.md).
+
 - This lab runs fully **locally on your own laptop**, with fictional sample data.
 - **AetherLink (and Ryan Lisse) receives, collects or stores no data from participants or their organisation**: no prompts, code, logs, credentials, diagnoses or telemetry. There is no server of ours anything goes to.
 - Claude Code uses **your own login** (your own Claude account or API key, or your own organisation's Vertex environment). What happens there falls under your agreements with that provider.
@@ -30,9 +32,11 @@ cd aetherlink-sre-agent-lab
 npm ci
 npm test               # expect: "pass 17" and "fail 0"
 npm run test:hooks     # expect: three times "fail=0"
-npm run eval           # expect: 6 lines starting with "ok"
+npm run eval           # expect: 6 lines starting with "ok", 2 "skip" lines (inc-003)
 claude                 # trust question: Yes · MCP server sre: approve · /status · /mcp
 ```
+
+For the PR/MR step you push to **your own** remote, not to this repo. At Worldline: create an empty GitLab project, `git remote rename origin upstream`, `git remote add origin <your project URL>`, `git push -u origin main`, `git push origin --tags`. Details: [INSTALL.md, Step 7b](INSTALL.md#step-7b--your-own-remote-needed-for-the-prmr-step).
 
 All hooks and the MCP server start with plain `node` (no bash, no `npx`), so they work the same in PowerShell, Git Bash, zsh and bash.
 
@@ -62,8 +66,8 @@ Only if your organisation offers Claude via Google Vertex AI: set `CLAUDE_CODE_U
 | `step-4` | Build 2 | `docs/plan.md` + diagnosis inc-001 (PASS) |
 | `step-5` | Test | `/verify-this` verdict in `docs/verify/` |
 | `step-6` | Deploy (gate) | config fix, named approval (`facilitator-example`), PR/MR description |
-| `step-7` | Maintain | new eval case (inc-003, design) |
-| `step-8` | Hackathon | `HANDOFF.md` |
+| `step-7` | Maintain | new eval case `evals/cases/inc-003.json` (scored by `npm run eval`) |
+| `step-8` | Hackathon | `HANDOFF.md` (the hackathon intent goes to `hackathon/intent.md`, from the template `examples/intent.md`) |
 
 Look without losing your own work: `git diff main step-4`, or in a separate folder: `git worktree add ../lab-step-4 step-4`. Note: steps STEP-0 and STEP-4 in `PROGRESS.md` only get an entry once the hook has fired in your own session (evidence in `approvals/audit.jsonl`, which is not in git). The step tags themselves still contain the older `progress.md`; `main` has the new `PROGRESS.md`.
 
@@ -90,7 +94,8 @@ Look without losing your own work: `git diff main step-4`, or in a separate fold
 | `inc-001-db-pool` | DB pool exhausted after a config change (deploy d-0142) | built |
 | `inc-002-bad-deploy` | Feature flag in deploy d-0151 breaks only EUR checkouts; a cron warning is the distractor | built |
 | `inc-004-upstream-timeout` | psp-sandbox slow + retry storm; a docs-only deploy just before is the distractor | built |
-| inc-003 · inc-005 | Memory leak · certificate expired | stretch, see `docs/stretch-incidents.md` |
+| `inc-003-memory-leak` | Heap grows after deploy d-0170 (cache without TTL) until OOMKilled; peak traffic at 12:00 is the distractor | data + fixtures built; the eval case is the Maintain exercise |
+| inc-005 | Certificate expired | stretch, see `docs/stretch-incidents.md` |
 
 Every built incident has `alert.json`, `logs.jsonl` (stable ids like `L0021`), `metrics.csv`, `deploys.json`, a runbook in `runbooks/`, an eval case in `evals/cases/` and a good **and** a bad fixture. inc-002 and inc-004 come from `npm run generate` (fixed seed, so always the same data).
 
@@ -105,7 +110,7 @@ Every built incident has `alert.json`, `logs.jsonl` (stable ids like `L0021`), `
 
 Two assignments are deliberately test-first. The test must really go red first, or the exercise proves nothing:
 
-- **Schema (Spec block):** `test/schema.test.ts` pins the contract in `evals/schema.ts`. Exercise, word for word: *"Add a test in `test/schema.test.ts` that expects a required `blast_radius` string field. Run `npm test`: red. Add `blast_radius` to `evals/schema.ts` and to the good fixtures. Run `npm test`: green."* See [FACILITATOR.md](FACILITATOR.md) for the reference solution.
+- **Schema (Spec block):** `test/schema.test.ts` pins the contract in `evals/schema.ts`. Exercise, word for word: *"Add a test in `test/schema.test.ts` that expects a required `blast_radius` string field. Run `npm test`: red. Add `blast_radius` to `evals/schema.ts`. Run `npm test`: green."* Every fixture already carries a `blast_radius` value, so the bad fixtures keep failing for their own reasons (for example `invented evidence L9999`). After the exercise `npm test` shows `pass 18`. See [FACILITATOR.md](FACILITATOR.md) for the reference solution.
 - **Deny rule (Controls block):** pick a command that is **not** covered yet, so the new rule goes red first. Good examples: `rm -rf`, `git reset --hard`, `terraform destroy`. Do **not** use `kubectl delete` as the example: `kubectl` is already in `GATED` in `.claude/hooks/guard.mjs`, so a test-first rule can never go red.
 - **By design, Claude cannot do these edits for you.** `.claude/settings.json` denies `Edit(./.claude/**)` and the guard limits writes, so `guard.mjs` and `test/hooks.test.mjs` are off limits for the agent. The participant edits `guard.mjs` and the hook test themselves; Claude only suggests the change. SDLC artefacts the team writes *with* Claude (schema, spec, eval cases, `test/*.test.ts`) stay reachable via the `ask` permission.
 
@@ -114,14 +119,14 @@ Two assignments are deliberately test-first. The test must really go red first, 
 1. Claude works on `fix/<name>`; every edit in `app/` asks your confirmation, as does the commit.
 2. Claude tries to push → **deny** (no approval).
 3. A named human (not the author) runs in **their own terminal** (not via Claude): `npm run approve -- <name> fix/<name> "<reason>"` (Docker route: `docker compose run --rm lab npm run approve -- …`).
-4. The human does the last step themselves, with their own git login (the hook does not let Claude push without an approval, and the Docker route deliberately has no git credentials in the container):
+4. The human does the last step themselves, with their own git login, to their **own** remote (`origin` = your GitLab or GitHub project, see [INSTALL.md, Step 7b](INSTALL.md#step-7b--your-own-remote-needed-for-the-prmr-step)) (the hook does not let Claude push without an approval, and the Docker route deliberately has no git credentials in the container):
 
 ```
 git add -f approvals/approvals.jsonl approvals/audit.jsonl
 git commit -m "approval: fix/<name> by <name>"
 git push -u origin fix/<name>
 gh pr create --fill          # GitHub: pull request (PR)
-glab mr create --fill        # GitLab: merge request (MR)
+glab mr create --fill        # GitLab: merge request (MR), or open the link that git push prints
 ```
 
 If Claude put a description in `docs/pr/<branch>.md` with `/visual-pr`, use it: `gh pr create --title "<title>" --body-file docs/pr/<branch>.md` or `glab mr create --title "<title>" --description "$(cat docs/pr/<branch>.md)"` (PowerShell: `--description (Get-Content -Raw docs/pr/<branch>.md)`).

@@ -17,7 +17,7 @@ cd aetherlink-sre-agent-lab
 npm ci
 npm test               # -> "pass 17" / "fail 0"
 npm run test:hooks     # -> three times "pass=… fail=0"
-npm run eval           # -> six lines starting with "ok" (3x PASS, 3x REJECTED)
+npm run eval           # -> six lines starting with "ok" (3x PASS, 3x REJECTED) + two "skip" lines (inc-003)
 
 # the gate, on a throw-away branch:
 git switch -c fix/facilitator-dry-run
@@ -34,8 +34,8 @@ Optional extra checks: `npm run skill:scan -- .claude/skills` (flags are expecte
 ### Setup — STEP-0 (10:45)
 
 - **Goal:** lab installed, Claude Code trusted, MCP `sre` connected, guard hook fired once.
-- **Commands:** `npm ci` → `npm test` → `npm run test:hooks` → `npm run eval` → `claude` (trust: **Yes**, MCP `sre`: approve) → `/status`, `/mcp`.
-- **Expected:** `pass 17 / fail 0`; three times `fail=0`; six `ok` lines; `/mcp` shows `sre` connected; `npm run progress -- --status` shows `[x] STEP-0`.
+- **Commands:** `npm ci` → `npm test` → `npm run test:hooks` → `npm run eval` → `claude` (trust: **Yes**, MCP `sre`: approve) → `/status`, `/mcp` → prompt `Run npm run progress -- --status` (the guard logs this tool call).
+- **Expected:** `pass 17 / fail 0`; three times `fail=0`; six `ok` lines and two `skip` lines; `/mcp` shows `sre` connected; `npm run progress -- --status` shows `[x] STEP-0`.
 - **Common failure:** progress stays `0/10` or settings seem ignored → the trust question was not accepted. Fix: restart `claude` in the lab folder, choose **Yes**. After that: `claude` asks for a login — for the tests you do not need one.
 - **Catch-up:** none needed — everyone starts on `main`.
 
@@ -57,7 +57,7 @@ Optional extra checks: `npm run skill:scan -- .claude/skills` (flags are expecte
 
 **Test-first exercise (slides, word for word):**
 
-> "Add a test in `test/schema.test.ts` that expects a required `blast_radius` string field. Run `npm test`: red. Add `blast_radius` to `evals/schema.ts` and to the good fixtures. Run `npm test`: green."
+> "Add a test in `test/schema.test.ts` that expects a required `blast_radius` string field. Run `npm test`: red. Add `blast_radius` to `evals/schema.ts`. Run `npm test`: green."
 
 Reference solution (the `step-2` material):
 
@@ -77,19 +77,16 @@ test("schema requires a blast_radius string", () => {
   blast_radius: z.string(),
 ```
 
-```json
-// in each evals/fixtures/*.good.json:
-  "blast_radius": "checkout-api only; sample data",
-```
+All fixtures in `evals/fixtures/` already carry `blast_radius`, so nobody edits them. The bad fixtures keep failing for their own reasons after the exercise (for example `invented evidence L9999`), and `npm run eval` output does not change.
 
-Verify it really goes red first: `npm test` fails on the new test before the schema and fixtures are touched (`pass 17 / fail 1`); green after = `pass 18 / fail 0`.
+Verify it really goes red first: `npm test` fails on the new test before the schema is touched (`pass 17 / fail 1`); green after = `pass 18 / fail 0`. From here on the team's `npm test` count is **18**.
 
 ### Build: controls / hooks — STEP-4 (13:00)
 
 - **Goal:** the team sees the guard deny something and adds its own deny rule, test-first.
 - **Commands:** let Claude try something blocked (e.g. `curl https://example.com`) → `deny` lands in `approvals/audit.jsonl`; `npm run test:hooks` → three times `fail=0`; `npm run progress -- --status`.
 - **Expected:** `[x] STEP-4`; at least one `deny` line in `approvals/audit.jsonl`; `pass=… fail=0` in the hook tests.
-- **Common failure:** STEP-4 stays unchecked → no `deny` was logged yet (audit.jsonl is local, not in git). Fix: have Claude attempt one blocked action, or run `npm run test:hooks`.
+- **Common failure:** STEP-4 stays unchecked → no `deny` was logged yet (audit.jsonl is local, not in git). Fix: have Claude attempt one blocked action. `npm run test:hooks` does not count: it writes to a temp folder.
 - **Catch-up tag:** `step-3`.
 
 **Test-first deny rule (slides):** the rule must go **red** first, so pick a command the guard does not cover yet:
@@ -120,7 +117,7 @@ Exercise: add a check to `test/hooks.test.mjs` (e.g. `check("terraform destroy b
 ### Deploy: the gate, PR/MR — STEP-7 (15:15)
 
 - **Goal:** a named human approves the `fix/*` branch and opens the PR/MR — never the agent.
-- **Commands:** Claude prepares `fix/<name>` + `docs/pr/<branch>.md`; the human in **their own terminal**: `npm run approve -- <name> fix/<name> "<reason>"` → `git add -f approvals/*.jsonl && git commit` → `git push` → `gh pr create --fill` or `glab mr create --fill`; CI check: `npm run check:approval`.
+- **Commands:** Claude prepares `fix/<name>` + `docs/pr/<branch>.md`; the human in **their own terminal**: `npm run approve -- <name> fix/<name> "<reason>"` → `git add -f approvals/*.jsonl && git commit` → `git push` (to the team's **own** remote, see INSTALL.md Step 7b) → `gh pr create --fill` or `glab mr create --fill`; CI check: `npm run check:approval`.
 - **Expected:** `[x] STEP-7`; `check-approval: fix/<name> approved by <name>`; Claude's push attempt was denied before the approval (`deny` in `audit.jsonl`).
 - **Common failure:** `npm run approve` exits with "Denied: this command is running inside a Claude Code session" → it was run *through* Claude. Fix: a human runs it in a separate terminal (the guard denies it inside Claude by design).
 - **Catch-up tag:** `step-6` (contains `facilitator-example` approval).
@@ -128,19 +125,21 @@ Exercise: add a check to `test/hooks.test.mjs` (e.g. `check("terraform destroy b
 ### Maintain: incident → eval case — STEP-8 (15:30)
 
 - **Goal:** a new eval case in `evals/cases/inc-00N.json` beyond the three that ship with the lab.
-- **Commands:** design or build a case (see `docs/stretch-incidents.md`); optionally `npm run generate` for new sample data; `npm test` stays green.
-- **Expected:** `[x] STEP-8`; `evals/cases/` has 4+ files; `pass 17 / fail 0`.
-- **Common failure:** `[ ] STEP-8` → the case file is named wrong or lands in the wrong folder. Fix: `evals/cases/inc-003.json` (number + `.json`, inside `evals/cases/`).
+- **Commands:** write `evals/cases/inc-003.json` for the inc-003 incident (data, runbook and fixtures ship with the lab; design in `docs/stretch-incidents.md`). Read the evidence with the `sre` MCP tools. Then `npm run eval`: the two inc-003 lines change from `skip` to `PASS` and `REJECTED`. `npm test` stays green.
+- **Expected:** `[x] STEP-8`; `evals/cases/` has 4+ files; `ok … inc-003.good.json -> PASS` and `ok … inc-003.bad.json -> REJECTED`; `pass 18 / fail 0` (17 if the team skipped the Design exercise).
+- **Common failure:** `[ ] STEP-8` → the case file is named wrong or lands in the wrong folder. Fix: `evals/cases/inc-003.json` (number + `.json`, inside `evals/cases/`). Second failure: `FAIL … inc-003.good.json -> REJECTED` → the case asks for a keyword or log id the good diagnosis does not have. Fix: compare with `evals/fixtures/inc-003.good.json` and the logs, then adjust the case. Reference: `git show step-7:evals/cases/inc-003.json`.
 - **Catch-up tag:** `step-7`.
 
 ### Hackathon: intent + HANDOFF.md — STEP-9 (15:40)
 
 - **Goal:** day 1 of the hackathon captured: decided, OPEN, first steps.
-- **Commands:** `/handoff` → `HANDOFF.md` (≥ 100 chars, no TODO).
+- **Commands:** `cp examples/intent.md hackathon/intent.md` (PowerShell: `Copy-Item examples/intent.md hackathon/intent.md`), then fill it in with Claude (the hook asks before each edit). Do **not** write the hackathon idea into the root `intent.md`: `CLAUDE.md` imports that file as the SRE lab intent. Then `/handoff` → `HANDOFF.md` (≥ 100 chars, no TODO).
 - **Expected:** `[x] STEP-9`.
 - **Common failure:** a `TODO` left in `HANDOFF.md`. Fix: write `OPEN:` for unresolved items instead of TODO — the hook checks for the word TODO.
 - **Catch-up tag:** `step-8`.
 
 ## Catching a team up with step tags
+
+**Before the day, check every step:** `npm run check:steps`. For each local `steps2/*` branch it runs `npm test`, `npm run test:hooks` and `npm run eval` in a temp worktree, replays the session evidence, and checks `npm run progress -- --status`. Expected: eight `ok` lines. `npm test` shows `pass 17` on step 1 and `pass 18` from step 2 (the Design exercise). Step 7 and 8 show `eval 8 ok/0 skip`. A rebuilt chain (`steps2/*`, tags `v2-step-*`) sits on top of `main`; until it is published, the tags below are the old chain, which starts before `main` and lacks main's newer tests. After `main` moves, rebase the chain: `git rebase --onto main <old-base> steps2/8-hackathon`, then move the other `steps2/*` branches and tags to the matching commits.
 
 Each tag is the worked-out state at the end of a block (`steps/N-…` branches hold the same). Look without switching: `git diff main step-4`. Work from it without losing current work: `git worktree add ../lab-step-4 step-4`. Note: `approvals/audit.jsonl` and `.lab/` are local evidence, not in git — STEP-0/STEP-4/STEP-6 only mark done after the hook sees the evidence in *that* checkout.

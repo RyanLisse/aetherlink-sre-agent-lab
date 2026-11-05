@@ -16,6 +16,8 @@
       "PowerShell(npm run test:hooks)",
       "Bash(npm run progress)",
       "PowerShell(npm run progress)",
+      "Bash(npm run progress -- --status)",
+      "PowerShell(npm run progress -- --status)",
       "Bash(npm run skill:scan -- *)",
       "PowerShell(npm run skill:scan -- *)",
       "Bash(git status)",

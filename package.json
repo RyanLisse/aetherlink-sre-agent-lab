@@ -14,7 +14,8 @@
     "check:approval": "node scripts/check-approval.mjs",
     "skill:scan": "node scripts/scan-skill.mjs",
     "generate": "node scripts/generate.mjs",
-    "progress": "node .claude/hooks/progress.mjs"
+    "progress": "node .claude/hooks/progress.mjs",
+    "check:steps": "node scripts/check-steps.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.1",
