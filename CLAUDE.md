@@ -6,7 +6,7 @@
 - Test MCP + evals + skill scanner: `npm test` (all green)
 - Guard + progress hooks: `npm run test:hooks` (all ok)
 - Evals: `npm run eval` (every good fixture PASS, every bad fixture REJECTED); one diagnosis: `npm run eval -- docs/diagnoses/<incident>.json`
-- Incidents built: inc-001-db-pool, inc-002-bad-deploy, inc-004-upstream-timeout (inc-003, inc-005 = stretch, see docs/stretch-incidents.md)
+- Incidents built: inc-001-db-pool, inc-002-bad-deploy, inc-003-memory-leak (its eval case is the Maintain exercise), inc-004-upstream-timeout (inc-005 = stretch, see docs/stretch-incidents.md)
 
 ## Rules
 - Data comes only from the `sre` MCP server (sample files). No network. No secrets.
