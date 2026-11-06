@@ -4,6 +4,7 @@
 
 An SRE agent on a small demo app (`checkout-api`). The agent reads alerts, logs, metrics and deploys via a local, read-only MCP server (`sre`), produces a diagnosis with cited evidence, and proposes one runbook step or a fix as a PR/MR. **It never executes anything.** Hooks enforce that; a named human approves, pushes and merges.
 
+- The participant script for the day, stage by stage, with every prompt: **[SOLO.md](SOLO.md)**
 - Step-by-step install (standard, no Docker): **[INSTALL.md](INSTALL.md)**
 - Docker alternative, for anyone who has trouble or prefers it: **[INSTALL-DOCKER.md](INSTALL-DOCKER.md)**
 - Running the workshop? Per-block commands, expected output and common failures: **[FACILITATOR.md](FACILITATOR.md)**
