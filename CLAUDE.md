@@ -2,6 +2,8 @@
 
 @intent.md
 
+The participant script for the day, with every prompt per stage: `SOLO.md`.
+
 ## Commands
 - Test MCP + evals + skill scanner: `npm test` (all green)
 - Guard + progress hooks: `npm run test:hooks` (all ok)
